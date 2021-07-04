@@ -1,8 +1,7 @@
 class Developer:
-  def __init__(self):
-    self.id = None
-    self.name = None
+    def __init__(self):
+        self.id = None
+        self.name = None
 
-  def to_dict(self):
-    return {"id": self.id,
-            "name": self.name}
+    def to_dict(self):
+        return {"id": self.id, "name": self.name}
