@@ -23,6 +23,7 @@ The project is broken up into the following parts:
 ### CartDB.Parser
 - C# Project
 - Parses the CartScraper and PCBScraper JSON data into C# models, makes some adjustments, downloads any images, and outputs SQL insertion files.
+- Must copy JSON files from `SiteScraper/output` to `CartDB.Parser/Resources` first
 
 ### SiteScraper
 - Python Project

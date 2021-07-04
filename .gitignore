@@ -387,5 +387,5 @@ FodyWeavers.xsd
 .idea/
 *.sln.iml
 
-# Resources Folder
-resources/
+# notes Folder
+notes/
