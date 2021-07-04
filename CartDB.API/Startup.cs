@@ -65,7 +65,6 @@ namespace CartDB.API
                 .SingleInstance();
 
             builder.RegisterModule(new DatabaseModule());
-            builder.RegisterModule(new StorageModule());
             builder.RegisterModule(new HandlerModule());
         }
     }

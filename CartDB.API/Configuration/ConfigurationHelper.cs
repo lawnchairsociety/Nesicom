@@ -44,16 +44,5 @@ namespace CartDB.API.Configuration
                 return databaseConfig;
             }
         }
-
-        public static StorageConfiguration StorageConfig
-        {
-            get
-            {
-                var storageConfig = new StorageConfiguration();
-                Configuration.GetSection("Storage").Bind(storageConfig);
-
-                return storageConfig;
-            }
-        }
     }
 }
