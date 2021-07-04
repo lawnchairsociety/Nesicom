@@ -7,8 +7,7 @@ The project is broken up into the following parts:
 - CartDB.API
 - CartDB.Database
 - CartDB.Parser
-- CartScraper
-- PCBScraper
+- SiteScraper
 
 ## Projects
 ### CartDB.API
@@ -25,12 +24,9 @@ The project is broken up into the following parts:
 - C# Project
 - Parses the CartScraper and PCBScraper JSON data into C# models, makes some adjustments, downloads any images, and outputs SQL insertion files.
 
-### CartScraper
+### SiteScraper
 - Python Project
 - Scrapes http://bootgod.dyndns.org:7777/profile.php?id= from id 1 to 4773 for all of the PCB data
-
-### PCBScraper
-- Python Project
 - Scrapes http://bootgod.dyndns.org:7777/pcb.php?PcbID= from id 1 to 647 for all of the PCB data
 
 ## Database Design

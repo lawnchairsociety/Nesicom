@@ -16,7 +16,7 @@ class PCB:
         self.batteryPresent = None
         self.mirroring = None
         self.cic = None
-        self.otherChips = []
+        self.otherChips = None
 
     def to_dict(self):
         return {
