@@ -96,6 +96,11 @@ def main(whichScraper):
         for i in range(1, 650):
             # wait a few seconds so as not to overload the server
             time.sleep(5)
+
+            # where are we in the scrape?
+            if (i % 50 == 0):
+                print(f"PCBs Scraped: {str(i)}")
+
             try:
                 page = requests.get(BASE_URL + PCB_URL + str(i))
                 soup = BeautifulSoup(page.content, "html.parser")
@@ -172,6 +177,11 @@ def main(whichScraper):
         for i in range(1, 5000):
             # wait a few seconds so as not to overload the server
             time.sleep(5)
+
+            # where are we in the scrape?
+            if (i % 50 == 0):
+                print(f"Cartridges Scraped: {str(i)}")
+            
             # reset token dictionary values to 0
             availablecarttokens = dict.fromkeys(availablecarttokens, 0)
 
@@ -416,7 +426,8 @@ def main(whichScraper):
 
                 imagelinks = soup.find_all("a", {"class": "myimg"})
                 for link in imagelinks:
-                    cartridge.images.append(BASE_URL + "/" + str(link["href"]).strip())
+                    full_url = (BASE_URL + "/" + str(link["href"]).strip()).replace("http://bootgod.dyndns.org:7777/image.php?ImageID=", "http://bootgod.dyndns.org:7777/imagegen.php?width=10000&ImageID=")
+                    cartridge.images.append(full_url)
 
                 # get developer info
                 developer = dev.Developer()
