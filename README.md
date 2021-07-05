@@ -35,7 +35,11 @@ The project is broken up into the following parts:
 - Python Project
 - Scrapes http://bootgod.dyndns.org:7777/profile.php?id= from id 1 to 4773 for all of the PCB data
 - Scrapes http://bootgod.dyndns.org:7777/pcb.php?PcbID= from id 1 to 647 for all of the PCB data
-- Usage: `python .\sitescraper.py <content>` where `<content>` is `pcb`, `cartridge`, or `all`
+- Usage: `python .\sitescraper.py <content>` where `<content>` is:
+  - `pcb` : gets the PCB data
+  - `cartridge` : gets the cartridge data
+  - `all` : gets the PCB and cartridge data
+- Example: `python .\sitescraper.py all`
 
 ## Database Design
 See [DATABASE.md](DATABASE.md)
