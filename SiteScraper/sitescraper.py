@@ -496,47 +496,49 @@ def main(whichScraper):
                         ).strip()
 
                 # get cartridge chip info
-                for j in range(3, len(chip_info_table.find_all("tr")) - 1):
-                    cartridgechip = cartchip.CartridgeChip()
-                    cartridgechip.id = j - 2
-                    cartridgechip.cartid = i
-                    if availablecarttokens["designation"] == 1:
-                        cartridgechip.designation = str(
-                            chip_info_table.find_all("tr")[j].find_all("td")[0].contents[0]
-                        ).strip().replace("<i>", "").replace("</i>", "")
-                    if availablecarttokens["manufacturer"] == 1:
-                        if (
-                            len(
-                                chip_info_table.find_all("tr")[j].find_all("td")[1].find_all("img")
-                            )
-                            > 0
-                        ):
-                            cartridgechip.manufacturer = str(
-                                chip_info_table.find_all("tr")[j].find_all("td")[1].contents[0]["title"]
+                if (availablecarttokens["designation"] == 1):
+                    for j in range(3, len(chip_info_table.find_all("tr")) - 1):
+                        cartridgechip = cartchip.CartridgeChip()
+                        cartridgechip.id = j - 2
+                        cartridgechip.cartid = i
+                        if availablecarttokens["designation"] == 1:
+                            cartridgechip.designation = str(
+                                chip_info_table.find_all("tr")[j].find_all("td")[0].contents[0]
+                            ).strip().replace("<i>", "").replace("</i>", "")
+                        if availablecarttokens["manufacturer"] == 1:
+                            if (
+                                len(
+                                    chip_info_table.find_all("tr")[j].find_all("td")[1].find_all("img")
+                                )
+                                > 0
+                            ):
+                                cartridgechip.manufacturer = str(
+                                    chip_info_table.find_all("tr")[j].find_all("td")[1].contents[0]["title"]
+                                ).strip()
+                                cartridgechip.manufacturerImage = BASE_URL + str(
+                                    chip_info_table.find_all("tr")[j].find_all("td")[1].contents[0]["src"]
+                                ).strip()
+                            else:
+                                cartridgechip.manufacturer = str(
+                                    chip_info_table.find_all("tr")[j].find_all("td")[1].contents[0]
+                                ).strip()
+
+                        if availablecarttokens["partnumber"] == 1:
+                            if(chip_info_table.find_all("tr")[j].find_all("td")[2].contents):
+                                cartridgechip.partnumber = str(
+                                    chip_info_table.find_all("tr")[j].find_all("td")[2].contents[0]
+                                ).strip().replace("<span class=\"implied\">", "").replace("</span>", "")
+                        if availablecarttokens["type"] == 1:
+                            cartridgechip.type = str(
+                                chip_info_table.find_all("tr")[j].find_all("td")[3].contents[0]
                             ).strip()
-                            cartridgechip.manufacturerImage = BASE_URL + str(
-                                chip_info_table.find_all("tr")[j].find_all("td")[1].contents[0]["src"]
-                            ).strip()
-                        else:
-                            cartridgechip.manufacturer = str(
-                                chip_info_table.find_all("tr")[j].find_all("td")[1].contents[0]
+                        if availablecarttokens["package"] == 1:
+                            cartridgechip.package = str(
+                                chip_info_table.find_all("tr")[j].find_all("td")[4].contents[0]
                             ).strip()
 
-                    if availablecarttokens["partnumber"] == 1:
-                        cartridgechip.partnumber = str(
-                            chip_info_table.find_all("tr")[j].find_all("td")[2].contents[0]
-                        ).strip().replace("<span class=\"implied\">", "").replace("</span>", "")
-                    if availablecarttokens["type"] == 1:
-                        cartridgechip.type = str(
-                            chip_info_table.find_all("tr")[j].find_all("td")[3].contents[0]
-                        ).strip()
-                    if availablecarttokens["package"] == 1:
-                        cartridgechip.package = str(
-                            chip_info_table.find_all("tr")[j].find_all("td")[4].contents[0]
-                        ).strip()
-
-                    # add cartridge chip to list
-                    cartridgechips.append(cartridgechip)
+                        # add cartridge chip to list
+                        cartridgechips.append(cartridgechip)
 
                 # add game to list
                 games.append(game)
