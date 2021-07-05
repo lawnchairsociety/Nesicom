@@ -6,6 +6,8 @@ class Game:
         self.catalogentry = None
         self.players = None
         self.releasedate = None
+        self.peripherals = None
+        self.peripheralsImage = None
 
     def to_dict(self):
         return {
@@ -15,4 +17,6 @@ class Game:
             "catalogentry": self.catalogentry,
             "players": self.players,
             "releasedate": self.releasedate,
+            "peripherals": self.peripherals,
+            "peripheralsImage": self.peripheralsImage
         }

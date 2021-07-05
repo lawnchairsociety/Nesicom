@@ -387,5 +387,11 @@ FodyWeavers.xsd
 .idea/
 *.sln.iml
 
-# notes Folder
+# personal notes Folder
 notes/
+
+# scraper output Folder
+output/
+
+# Entity Framework migrations Folder
+[Mm]igrations/

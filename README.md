@@ -11,17 +11,23 @@ The project is broken up into the following parts:
 
 ## Projects
 ### CartDB.API
-- C# Project
+- C# Web API Project
 - .Net 5
 - Serves up an API for querying the data models
 
 ### CartDB.Database
-- C# Project
+- C# Library Project
 - .Net 5
 - EF Core Database library for the models created by the Parser and used by the API
+- Requires SQL Server or SQL Express to be installed locally
+- To initialize database:
+  1. Open Package Manager Console and select `CartDB.Database` from the `Default Project` dropdown
+  2. Run `Add-Migration`
+  3. Run `Update-Database`
 
 ### CartDB.Parser
-- C# Project
+- C# Console Appplication Project
+- .Net 5
 - Parses the CartScraper and PCBScraper JSON data into C# models, makes some adjustments, downloads any images, and outputs SQL insertion files.
 - Must copy JSON files from `SiteScraper/output` to `CartDB.Parser/Resources` first
 

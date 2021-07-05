@@ -21,7 +21,8 @@ PCB_URL = "/pcb.php?PcbID="
 
 
 def main(whichScraper):
-    global games, cartridges, cartridgechips, developers, publishers, regions, producers, pcbs
+    start = time.time()
+    global games, cartridges, cartridgechips, developers, publishers, regions, producers, pcbs, errors
     games = []
     cartridges = []
     cartridgechips = []
@@ -30,6 +31,7 @@ def main(whichScraper):
     regions = []
     producers = []
     pcbs = []
+    errors = []
 
     scrapePCBData = False
     scrapeCartData = False
@@ -49,6 +51,7 @@ def main(whichScraper):
             "region": 0,
             "cartclass": 0,
             "releasedate": 0,
+            "peripherals": 0,
             "publisher": 0,
             "developer": 0,
             "players": 0,
@@ -98,10 +101,18 @@ def main(whichScraper):
         }
     )
 
-    errorcount = 0
-    unavailable = 0
+    cart_scraped = 0
+    cart_errorcount = 0
+    cart_unavailable = 0
 
-    #scrape the PCB data
+    pcb_scraped = 0
+    pcb_errorcount = 0
+    pcb_unavailable = 0
+
+    # make sure the error list is empty
+    errors.clear()
+
+    # scrape the PCB data
     if (scrapePCBData == True):
         # loop through pages (650)
         for i in range(1, 650):
@@ -114,7 +125,7 @@ def main(whichScraper):
                 
                 # check if pcb is disabled
                 if not soup(text=re.compile('PRG-ROM')):
-                    unavailable += 1
+                    pcb_unavailable += 1
                     print(f"{i} is unavailable")
                     continue
 
@@ -123,8 +134,11 @@ def main(whichScraper):
 
                 pcb = pm.PCB()
                 pcb.id = i
-                pcb.manufacturer = rows[0].find("img").get("title")
-                pcb.manufacturerLogo = BASE_URL + rows[0].find("img").get("src")
+
+                manufacturer = rows[0].find("img")
+                if manufacturer:
+                    pcb.manufacturer = manufacturer.get("title")
+                    pcb.manufacturerLogo = BASE_URL + manufacturer.get("src")
                 pcb.pcbName = rows[0].find("a").contents[0]
                 pcb.pcbNotes = rows[0].find_all("th")[1].contents[0]
 
@@ -141,12 +155,14 @@ def main(whichScraper):
                 pcb.batteryPresent = rows[9].find("td").contents[0]
                 pcb.mirroring = rows[10].find("td").contents[0]
                 pcb.cic = rows[11].find("td").contents[0]
-                pcb.otherChips = rows[12].find("td").contents[0]
-                
+                pcb.otherChips = rows[12].find("td").text
+
                 pcbs.append(pcb)
+                pcb_scraped += 1
                 
             except:
-                errorcount += 1
+                pcb_errorcount += 1
+                errors.append(BASE_URL + PCB_URL + str(i))
                 print("ERROR WITH: " + BASE_URL + PCB_URL + str(i))
                 print(sys.exc_info())
                 traceback.print_tb(sys.exc_info()[2])
@@ -157,6 +173,12 @@ def main(whichScraper):
         if not os.path.exists('output'):
             os.makedirs('output')
 
+        # write errors to file
+        pcb_error_file = open("output/ pcb-errors.txt", "w")
+        for err in errors:
+            pcb_error_file.write(err + "\n")
+        pcb_error_file.close()
+
         # write pcb data to json
         jsonParse = [pObj.to_dict() for pObj in pcbs]
         jsonStr = json.dumps({"pcbs": jsonParse})
@@ -164,6 +186,9 @@ def main(whichScraper):
         n = pcb_file.write(jsonStr)
         pcb_file.close()
 
+    # make sure the error list is empty
+    errors.clear()
+    
     # scrape the cartridge/game data
     if (scrapeCartData == True):
         # loop through pages (5000)
@@ -180,7 +205,7 @@ def main(whichScraper):
                     soup.find(text=f"Could not find CartID {str(i)} or it is disabled.")
                     is not None
                 ):
-                    unavailable += 1
+                    cart_unavailable += 1
                     continue
 
                 # gather data
@@ -200,6 +225,8 @@ def main(whichScraper):
                     availablecarttokens["developer"] = 1
                 if primary_data_table.find(text="Players") is not None:
                     availablecarttokens["players"] = 1
+                if primary_data_table.find(text="Peripherals") is not None:
+                    availablecarttokens["peripherals"] = 1
 
                 # producer, color, formfactor, embossedtext, frontlabelentry, sealofquality, mfgstrpresent, backlabelentry, twodigitcode, revision
                 cart_data_table = soup.find(text="Cart Properties").parent.parent.parent
@@ -276,6 +303,36 @@ def main(whichScraper):
                         .parent.parent.find_all("td")[0]
                         .contents[0]
                     ).strip()
+                if availablecarttokens["peripherals"] == 1:
+                    if (
+                        len(
+                            primary_data_table.find(text="Peripherals")
+                            .parent.parent.find_all("td")[0]
+                            .find_all("img")
+                        )
+                        > 0
+                    ):
+                        game.peripherals = str(
+                            primary_data_table.find(text="Peripherals")
+                            .parent.parent.find_all("td")[0]
+                            .find_all("img")[len(primary_data_table.find(text="Peripherals")
+                            .parent.parent.find_all("td")[0]
+                            .find_all("img")) - 1]["title"]
+                        ).strip()
+                        game.peripheralsImage = BASE_URL + str(
+                            primary_data_table.find(text="Peripherals")
+                            .parent.parent.find_all("td")[0]
+                            .find_all("img")[len(primary_data_table.find(text="Peripherals")
+                            .parent.parent.find_all("td")[0]
+                            .find_all("img")) - 1]["src"]
+                        ).strip()
+                    else:
+                        game.peripherals = str(
+                            primary_data_table.find(text="Peripherals")
+                            .parent.parent.find_all("td")[0]
+                            .contents[0]
+                        ).strip()
+                    
                 if availablecarttokens["releasedate"] == 1:
                     game.releasedate = str(
                         primary_data_table.find(text="Release Date")
@@ -413,6 +470,11 @@ def main(whichScraper):
                         .parent.parent.find_all("td")[0]
                         .contents[0]["title"]
                     ).strip()
+                    region.image = BASE_URL + str(
+                        primary_data_table.find(text="Region")
+                        .parent.parent.find_all("td")[0]
+                        .contents[0]["src"]
+                    ).strip()
 
                 # get producer info
                 producer = pro.Producer()
@@ -431,6 +493,11 @@ def main(whichScraper):
                             .parent.parent.find_all("td")[0]
                             .contents[0]["title"]
                         ).strip()
+                        producer.image = BASE_URL + str(
+                            cart_data_table.find(text="Cart Producer")
+                            .parent.parent.find_all("td")[0]
+                            .contents[0]["src"]
+                        ).strip()
                     else:
                         producer.name = str(
                             cart_data_table.find(text="Cart Producer")
@@ -446,15 +513,29 @@ def main(whichScraper):
                     if availablecarttokens["designation"] == 1:
                         cartridgechip.designation = str(
                             chip_info_table.find_all("tr")[j].find_all("td")[0].contents[0]
-                        ).strip()
+                        ).strip().replace("<i>", "").replace("</i>", "")
                     if availablecarttokens["manufacturer"] == 1:
-                        cartridgechip.manufacturer = str(
-                            chip_info_table.find_all("tr")[j].find_all("td")[1].contents[0]
-                        ).strip()
+                        if (
+                            len(
+                                chip_info_table.find_all("tr")[j].find_all("td")[1].find_all("img")
+                            )
+                            > 0
+                        ):
+                            cartridgechip.manufacturer = str(
+                                chip_info_table.find_all("tr")[j].find_all("td")[1].contents[0]["title"]
+                            ).strip()
+                            cartridgechip.manufacturerImage = BASE_URL + str(
+                                chip_info_table.find_all("tr")[j].find_all("td")[1].contents[0]["src"]
+                            ).strip()
+                        else:
+                            cartridgechip.manufacturer = str(
+                                chip_info_table.find_all("tr")[j].find_all("td")[1].contents[0]
+                            ).strip()
+
                     if availablecarttokens["partnumber"] == 1:
                         cartridgechip.partnumber = str(
                             chip_info_table.find_all("tr")[j].find_all("td")[2].contents[0]
-                        ).strip()
+                        ).strip().replace("<span class=\"implied\">", "").replace("</span>", "")
                     if availablecarttokens["type"] == 1:
                         cartridgechip.type = str(
                             chip_info_table.find_all("tr")[j].find_all("td")[3].contents[0]
@@ -479,8 +560,11 @@ def main(whichScraper):
                 regions.append(region)
                 # add producer to list
                 producers.append(producer)
+
+                cart_scraped += 1
             except:
-                errorcount += 1
+                cart_errorcount += 1
+                errors.append(BASE_URL + CART_URL + str(i))
                 print("ERROR WITH: " + BASE_URL + CART_URL + str(i))
                 print(sys.exc_info())
                 traceback.print_tb(sys.exc_info()[2])
@@ -490,6 +574,12 @@ def main(whichScraper):
         # make output directory
         if not os.path.exists('output'):
             os.makedirs('output')
+
+        # write errors to file
+        cart_error_file = open("output/cart-errors.txt", "w")
+        for err in errors:
+            cart_error_file.write(err + "\n")
+        cart_error_file.close()
 
         # write game data to json
         jsonParse = [gObj.to_dict() for gObj in games]
@@ -540,8 +630,19 @@ def main(whichScraper):
         n = producer_file.write(jsonStr)
         producer_file.close()
 
-    print(f"Errors: {str(errorcount)}")
-    print(f"Unavailable: {str(unavailable)}")
+    end = time.time()
+
+    if (scrapeCartData == True):
+        print(f"Carts Captured: {str(cart_scraped)}")
+        print(f"Carts Unavailable: {str(cart_unavailable)}")
+        print(f"Carts With Errors: {str(cart_errorcount)}")
+
+    if (scrapeCartData == True):
+        print(f"PCBs Captured: {str(pcb_scraped)}")
+        print(f"PCBs Unavailable: {str(pcb_unavailable)}")
+        print(f"PCBs With Errors: {str(pcb_errorcount)}")
+
+    print(f"Elapsed Time: {str(end - start)}")
 
 
 if __name__ == "__main__":
