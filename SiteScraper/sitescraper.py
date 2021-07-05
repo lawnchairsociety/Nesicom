@@ -79,28 +79,6 @@ def main(whichScraper):
         }
     )
 
-    availablepcbtokens = dict(
-        {
-            "manufacturer": 0,
-            "manufacturerLogo": 0,
-            "pcbName": 0,
-            "pcbNotes": 0,
-            "pcbImages": 0,
-            "lifeSpan": 0,
-            "pcbClass": 0,
-            "mapper": 0,
-            "prgRom": 0,
-            "prgRam": 0,
-            "chrRom": 0,
-            "chrRam": 0,
-            "batteryPresent": 0,
-            "mirroring": 0,
-            "cic": 0,
-            "otherChips": 0,
-
-        }
-    )
-
     cart_scraped = 0
     cart_errorcount = 0
     cart_unavailable = 0
@@ -116,9 +94,8 @@ def main(whichScraper):
     if (scrapePCBData == True):
         # loop through pages (650)
         for i in range(1, 650):
-            # reset token dictionary values to 0
-            availablepcbtokens = dict.fromkeys(availablepcbtokens, 0)    
-            
+            # wait a few seconds so as not to overload the server
+            time.sleep(5)
             try:
                 page = requests.get(BASE_URL + PCB_URL + str(i))
                 soup = BeautifulSoup(page.content, "html.parser")
@@ -193,6 +170,8 @@ def main(whichScraper):
     if (scrapeCartData == True):
         # loop through pages (5000)
         for i in range(1, 5000):
+            # wait a few seconds so as not to overload the server
+            time.sleep(5)
             # reset token dictionary values to 0
             availablecarttokens = dict.fromkeys(availablecarttokens, 0)
 
