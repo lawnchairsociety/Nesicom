@@ -422,7 +422,7 @@ def main(whichScraper):
                         rom_data_table.find(text="Hardware")
                         .parent.parent.find_all("td")[0]
                         .contents[0]
-                    ).strip()
+                    ).strip().replace("<span class=\"implied\">", "").replace("</span>", "")
 
                 imagelinks = soup.find_all("a", {"class": "myimg"})
                 for link in imagelinks:
