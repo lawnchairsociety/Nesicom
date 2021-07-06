@@ -28,7 +28,7 @@ namespace CartDB.Parser.Mappers
                         Type = cartridgeChip.Type,
                         Package = cartridgeChip.Package,
                         CartridgeId = cartridgeChip.CartridgeId,
-                        MfgId = manufacturers.Where(m => m.ManufacturerName == cartridgeChip.Manufacturer).Select(m => m.ManufacturerId).FirstOrDefault()
+                        ManufacturerId = manufacturers.Where(m => m.ManufacturerName == cartridgeChip.Manufacturer).Select(m => m.ManufacturerId).FirstOrDefault()
                     };
 
                     result.Add(cartChip);

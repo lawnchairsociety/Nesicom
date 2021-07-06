@@ -29,18 +29,8 @@ namespace CartDB.API.Handlers
 
             for (var i = 0; i < cartridges.Count; i++)
             {
-                var manufacturer = this._context.Manufacturers.FirstOrDefault(m => m.ManufacturerId == this._context.Cartridges.Select(p => p.ManufacturerId).FirstOrDefault());
-                var pcb = this._context.Pcbs.FirstOrDefault(m => m.PcbId == this._context.Cartridges.Select(p => p.PcbId).FirstOrDefault());
-
-                if (manufacturer != null)
-                {
-                    cartridges[i].Manufacturer = manufacturer;
-                }
-
-                if (pcb != null)
-                {
-                    cartridges[i].Pcb = pcb;
-                }
+                cartridges[i].Manufacturer = this._context.Manufacturers.FirstOrDefault(m => m.ManufacturerId == cartridges[i].ManufacturerId);
+                cartridges[i].Pcb = this._context.Pcbs.FirstOrDefault(p => p.PcbId == cartridges[i].PcbId);
             }
 
             var result = this._cartridgeMapper.MapDto(cartridges).ToList();
@@ -54,18 +44,8 @@ namespace CartDB.API.Handlers
                             .Where(c => c.CartridgeId == id)
                             .FirstOrDefault();
 
-            var manufacturer = this._context.Manufacturers.FirstOrDefault(m => m.ManufacturerId == this._context.Cartridges.Select(p => p.ManufacturerId).FirstOrDefault());
-            var pcb = this._context.Pcbs.FirstOrDefault(m => m.PcbId == this._context.Cartridges.Select(p => p.PcbId).FirstOrDefault());
-
-            if (manufacturer != null)
-            {
-                cartridge.Manufacturer = manufacturer;
-            }
-
-            if (pcb != null)
-            {
-                cartridge.Pcb = pcb;
-            }
+            cartridge.Manufacturer = this._context.Manufacturers.FirstOrDefault(m => m.ManufacturerId == cartridge.ManufacturerId);
+            cartridge.Pcb = this._context.Pcbs.FirstOrDefault(p => p.PcbId == cartridge.PcbId);
 
             var result = this._cartridgeMapper.MapDto(cartridge);
 
@@ -74,25 +54,15 @@ namespace CartDB.API.Handlers
 
         public async Task<List<CartridgeDto>> GetCartridgesByChipIdAsync(Guid id)
         {
-            var cartridges = this._context.CartridgeCartridgeChips
+            var cartridges = this._context.CartridgeChips
                                 .Where(c => c.CartridgeChipId == id)
                                 .Select(ch => ch.Cartridge)
                                 .ToList();
 
             for (var i = 0; i < cartridges.Count; i++)
             {
-                var manufacturer = this._context.Manufacturers.FirstOrDefault(m => m.ManufacturerId == this._context.Cartridges.Select(p => p.ManufacturerId).FirstOrDefault());
-                var pcb = this._context.Pcbs.FirstOrDefault(m => m.PcbId == this._context.Cartridges.Select(p => p.PcbId).FirstOrDefault());
-
-                if (manufacturer != null)
-                {
-                    cartridges[i].Manufacturer = manufacturer;
-                }
-
-                if (pcb != null)
-                {
-                    cartridges[i].Pcb = pcb;
-                }
+                cartridges[i].Manufacturer = this._context.Manufacturers.FirstOrDefault(m => m.ManufacturerId == cartridges[i].ManufacturerId);
+                cartridges[i].Pcb = this._context.Pcbs.FirstOrDefault(p => p.PcbId == cartridges[i].PcbId);
             }
 
             var result = this._cartridgeMapper.MapDto(cartridges).ToList();
@@ -102,32 +72,22 @@ namespace CartDB.API.Handlers
 
         public async Task<List<CartridgeDto>> GetCartridgesByChipPartNumberAsync(string partnumber)
         {
-            var chipIds = this._context.CartridgeChips.Where(c => c.PartNumber == partnumber).Select(p => p.CartridgeChipId).ToList();
+            var cartIds = this._context.CartridgeChips.Where(c => c.PartNumber == partnumber).Select(p => p.CartridgeId).ToList();
             var cartridges = new List<Cartridge>();
 
-            foreach (var id in chipIds)
+            foreach(var id in cartIds)
             {
-                var cart = this._context.Cartridges.FirstOrDefault(c => c.CartridgeCartridgeChips.Contains(new CartridgeCartridgeChip { CartridgeChipId = id }));
-                if (cart != null)
+                var newCart = this._context.Cartridges.Where(c => c.CartridgeId == id).FirstOrDefault();
+                if (newCart != null)
                 {
-                    cartridges.Add(cart);
+                    cartridges.Add(newCart);
                 }
             }
 
             for (var i = 0; i < cartridges.Count; i++)
             {
-                var manufacturer = this._context.Manufacturers.FirstOrDefault(m => m.ManufacturerId == this._context.Cartridges.Select(p => p.ManufacturerId).FirstOrDefault());
-                var pcb = this._context.Pcbs.FirstOrDefault(m => m.PcbId == this._context.Cartridges.Select(p => p.PcbId).FirstOrDefault());
-
-                if (manufacturer != null)
-                {
-                    cartridges[i].Manufacturer = manufacturer;
-                }
-
-                if (pcb != null)
-                {
-                    cartridges[i].Pcb = pcb;
-                }
+                cartridges[i].Manufacturer = this._context.Manufacturers.FirstOrDefault(m => m.ManufacturerId == cartridges[i].ManufacturerId);
+                cartridges[i].Pcb = this._context.Pcbs.FirstOrDefault(p => p.PcbId == cartridges[i].PcbId);
             }
 
             var result = this._cartridgeMapper.MapDto(cartridges).ToList();
@@ -143,11 +103,8 @@ namespace CartDB.API.Handlers
 
             for (var i = 0; i < cartridges.Count; i++)
             {
-                var manufacturerId = this._context.Cartridges.Select(p => p.ManufacturerId).FirstOrDefault();
-                var pcbId = this._context.Cartridges.Select(p => p.PcbId).FirstOrDefault();
-
-                cartridges[i].Manufacturer = this._context.Manufacturers.FirstOrDefault(m => m.ManufacturerId == manufacturerId);
-                cartridges[i].Pcb = this._context.Pcbs.FirstOrDefault(m => m.PcbId == pcbId);
+                cartridges[i].Manufacturer = this._context.Manufacturers.FirstOrDefault(m => m.ManufacturerId == cartridges[i].ManufacturerId);
+                cartridges[i].Pcb = this._context.Pcbs.FirstOrDefault(p => p.PcbId == cartridges[i].PcbId);
             }
 
             var result = this._cartridgeMapper.MapDto(cartridges).ToList();
@@ -163,11 +120,8 @@ namespace CartDB.API.Handlers
 
             for (var i = 0; i < cartridges.Count; i++)
             {
-                var manufacturerId = this._context.Cartridges.Select(p => p.ManufacturerId).FirstOrDefault();
-                var pcbId = this._context.Cartridges.Select(p => p.PcbId).FirstOrDefault();
-
-                cartridges[i].Manufacturer = this._context.Manufacturers.FirstOrDefault(m => m.ManufacturerId == manufacturerId);
-                cartridges[i].Pcb = this._context.Pcbs.FirstOrDefault(m => m.PcbId == pcbId);
+                cartridges[i].Manufacturer = this._context.Manufacturers.FirstOrDefault(m => m.ManufacturerId == cartridges[i].ManufacturerId);
+                cartridges[i].Pcb = this._context.Pcbs.FirstOrDefault(p => p.PcbId == cartridges[i].PcbId);
             }
 
             var result = this._cartridgeMapper.MapDto(cartridges).ToList();

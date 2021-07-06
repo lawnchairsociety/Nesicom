@@ -16,7 +16,7 @@ namespace CartDB.API.Models
         public string EmbossedText { get; set; }
         public string FrontLabelEntry { get; set; }
         public string SealOfQuality { get; set; }
-        public bool MfgStringPresent { get; set; }
+        public bool? MfgStringPresent { get; set; }
         public string BackLabelEntry { get; set; }
         public string TwoDigitCode { get; set; }
         public string Revision { get; set; }

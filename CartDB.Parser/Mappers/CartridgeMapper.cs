@@ -23,7 +23,7 @@ namespace CartDB.Parser.Mappers
                 var newCartridge = new Cartridge
                 {
                     CartridgeId = cartridge.Nid,
-                    MfgId = producers.Where(p => p.CartridgeId == cartridge.Nid).Select(p => p.Nid).FirstOrDefault(),
+                    ManufacturerId = producers.Where(p => p.CartridgeId == cartridge.Nid).Select(p => p.Nid).FirstOrDefault(),
                     GameId = games.Where(g => g.CartridgeId == cartridge.Nid).Select(g => g.Nid).FirstOrDefault(),
                     Color = cartridge.Color,
                     FormFactor = cartridge.FormFactor,

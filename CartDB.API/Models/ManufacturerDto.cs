@@ -7,6 +7,6 @@ namespace CartDB.API.Models
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public List<ImageDto> Images { get; set; }
+        public string Image { get; set; }
     }
 }

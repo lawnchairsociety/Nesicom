@@ -59,25 +59,5 @@ namespace CartDB.API.Controllers
             var pcb = await this._pcbHandler.GetPcbByManufacturerIdAsync(id);
             return Ok(pcb);
         }
-
-        [HttpGet("chip/partnumber")]
-        public async Task<IActionResult> GetPcbByChipPartNumber(string partnumber)
-        {
-            var ip = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-            Logger.Information($"Pcb.GetPcbByChipPartNumber by {ip}");
-
-            var pcbs = await this._pcbHandler.GetPcbByChipPartNumberAsync(partnumber);
-            return Ok(pcbs);
-        }
-
-        [HttpGet("chip/id")]
-        public async Task<IActionResult> GetPcbByChipId(Guid id)
-        {
-            var ip = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-            Logger.Information($"Pcb.GetPcbByChipId by {ip}");
-
-            var pcbs = await this._pcbHandler.GetPcbByChipIdAsync(id);
-            return Ok(pcbs);
-        }
     }
 }

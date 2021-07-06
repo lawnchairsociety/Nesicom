@@ -33,19 +33,5 @@ namespace CartDB.API.Handlers
         /// <param name="id">the id of the manufacturer of the PCB</param>
         /// <returns>a PCB</returns>
         Task<List<PcbDto>> GetPcbByManufacturerIdAsync(Guid id);
-
-        /// <summary>
-        /// Gets a list PCBs by the chip's part number
-        /// </summary>
-        /// <param name="partnumber">the partnumber of the chip on the PCB</param>
-        /// <returns>a list of PCBs</returns>
-        Task<List<PcbDto>> GetPcbByChipPartNumberAsync(string partnumber);
-
-        /// <summary>
-        /// Gets a list PCBs by the chip's id
-        /// </summary>
-        /// <param name="id">the id of the chip on the PCB</param>
-        /// <returns>a list of PCBs</returns>
-        Task<List<PcbDto>> GetPcbByChipIdAsync(Guid id);
     }
 }

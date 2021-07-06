@@ -20,8 +20,8 @@ namespace CartDB.API.Mappers
             return new ManufacturerDto
             {
                 Id = model.ManufacturerId,
-                Name = model.ManufacturerName
-                // TODO: images
+                Name = model.ManufacturerName,
+                Image = model.Image
             };
         }
     }

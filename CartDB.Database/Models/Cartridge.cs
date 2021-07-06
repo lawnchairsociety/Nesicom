@@ -9,7 +9,7 @@ namespace CartDB.Database.Models
 #nullable enable
         [Key]
         public Guid CartridgeId { get; set; }
-        public Guid? MfgId { get; set; }
+        public Guid? ManufacturerId { get; set; }
         public Guid? GameId { get; set; }
         public string? Color { get; set; }
         public string? FormFactor { get; set; }
@@ -28,6 +28,7 @@ namespace CartDB.Database.Models
 #nullable disable
 
         public ICollection<Image> Images { get; set; }
+        public Manufacturer? Manufacturer { get; set; }
         public Game Game { get; set; }
         public Pcb Pcb { get; set; }
     }

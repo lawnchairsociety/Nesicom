@@ -11,6 +11,7 @@ namespace CartDB.API.Mappers
     public class PcbModelToDtoMapper : AbstractModelToDtoMapper<Pcb, PcbDto>
     {
         ManufacturerModelToDtoMapper manufacturerMapper = new ManufacturerModelToDtoMapper();
+        ImageModelToDtoMapper imageMapper = new ImageModelToDtoMapper();
         
         public override PcbDto MapDto(Pcb model)
         {
@@ -25,7 +26,6 @@ namespace CartDB.API.Mappers
                 Manufacturer = manufacturerMapper.MapDto(model.Manufacturer),
                 Name = model.PcbName,
                 Notes = model.PcbNotes,
-                // TODO: images
                 LifeSpanStart = model.LifeSpanStart,
                 LifeSpanEnd = model.LifeSpanEnd,
                 Class = model.PcbClass,
@@ -36,7 +36,9 @@ namespace CartDB.API.Mappers
                 ChrRam = model.ChrRam,
                 BatteryPresent = (BatteryPresentType)model.BatteryPresent,
                 Mirroring = (MirroringType)model.Mirroring,
-                CIC = model.Cic
+                CIC = model.CIC,
+                OtherChips = model.OtherChips,
+                Images = imageMapper.MapDto(model.Images).ToList()
             };
         }
     }

@@ -20,7 +20,8 @@ namespace CartDB.API.Mappers
             return new RegionDto
             {
                 Id = model.RegionId,
-                Name = model.RegionName
+                Name = model.RegionName,
+                Image = model.Image
             };
         }
     }

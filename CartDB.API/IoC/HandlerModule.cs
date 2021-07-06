@@ -80,17 +80,6 @@ namespace CartDB.API.IoC
             })
                 .As<IPublisherHandler>()
                 .InstancePerLifetimeScope();
-
-            builder.Register(context =>
-            {
-                var nesContext = context.Resolve<NesicomContext>();
-                var storageClient = context.Resolve<BlobContainerClient>();
-                var imageDtoMapper = new ImageModelToDtoMapper();
-
-                return new ImageHandler(nesContext, imageDtoMapper, storageClient);
-            })
-                .As<IImageHandler>()
-                .InstancePerLifetimeScope();
         }
     }
 }

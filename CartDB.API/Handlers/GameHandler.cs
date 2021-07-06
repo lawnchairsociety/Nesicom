@@ -29,12 +29,9 @@ namespace CartDB.API.Handlers
 
             for (var i = 0; i < games.Count; i++)
             {
-                var publisherId = this._context.Games.Select(p => p.PublisherId).FirstOrDefault();
-                var developerId = this._context.Games.Select(p => p.DeveloperId).FirstOrDefault();
-                var regionId = this._context.Games.Select(p => p.RegionId).FirstOrDefault();
-                games[i].Publisher = this._context.Publishers.FirstOrDefault(m => m.PublisherId == publisherId);
-                games[i].Developer = this._context.Developers.FirstOrDefault(m => m.DeveloperId == developerId);
-                games[i].Region = this._context.Regions.FirstOrDefault(m => m.RegionId == regionId);
+                games[i].Publisher = this._context.Publishers.FirstOrDefault(m => m.PublisherId == games[i].PublisherId);
+                games[i].Developer = this._context.Developers.FirstOrDefault(m => m.DeveloperId == games[i].DeveloperId);
+                games[i].Region = this._context.Regions.FirstOrDefault(m => m.RegionId == games[i].RegionId);
             }
 
             var result = this._gameMapper.MapDto(games).ToList();
@@ -48,12 +45,9 @@ namespace CartDB.API.Handlers
                         .Where(g => g.GameId == id)
                         .FirstOrDefault();
 
-            var publisherId = this._context.Games.Select(p => p.PublisherId).FirstOrDefault();
-            var developerId = this._context.Games.Select(p => p.DeveloperId).FirstOrDefault();
-            var regionId = this._context.Games.Select(p => p.RegionId).FirstOrDefault();
-            game.Publisher = this._context.Publishers.FirstOrDefault(m => m.PublisherId == publisherId);
-            game.Developer = this._context.Developers.FirstOrDefault(m => m.DeveloperId == developerId);
-            game.Region = this._context.Regions.FirstOrDefault(m => m.RegionId == regionId);
+            game.Publisher = this._context.Publishers.FirstOrDefault(m => m.PublisherId == game.PublisherId);
+            game.Developer = this._context.Developers.FirstOrDefault(m => m.DeveloperId == game.DeveloperId);
+            game.Region = this._context.Regions.FirstOrDefault(m => m.RegionId == game.RegionId);
 
             var result = this._gameMapper.MapDto(game);
 
@@ -67,12 +61,9 @@ namespace CartDB.API.Handlers
 
             for (var i = 0; i < games.Count; i++)
             {
-                var publisherId = this._context.Games.Select(p => p.PublisherId).FirstOrDefault();
-                var developerId = this._context.Games.Select(p => p.DeveloperId).FirstOrDefault();
-                var regionId = this._context.Games.Select(p => p.RegionId).FirstOrDefault();
-                games[i].Publisher = this._context.Publishers.FirstOrDefault(m => m.PublisherId == publisherId);
-                games[i].Developer = this._context.Developers.FirstOrDefault(m => m.DeveloperId == developerId);
-                games[i].Region = this._context.Regions.FirstOrDefault(m => m.RegionId == regionId);
+                games[i].Publisher = this._context.Publishers.FirstOrDefault(m => m.PublisherId == games[i].PublisherId);
+                games[i].Developer = this._context.Developers.FirstOrDefault(m => m.DeveloperId == games[i].DeveloperId);
+                games[i].Region = this._context.Regions.FirstOrDefault(m => m.RegionId == games[i].RegionId);
             }
 
             var result = this._gameMapper.MapDto(games).ToList();
@@ -87,12 +78,9 @@ namespace CartDB.API.Handlers
 
             for (var i = 0; i < games.Count; i++)
             {
-                var publisherId = this._context.Games.Select(p => p.PublisherId).FirstOrDefault();
-                var developerId = this._context.Games.Select(p => p.DeveloperId).FirstOrDefault();
-                var regionId = this._context.Games.Select(p => p.RegionId).FirstOrDefault();
-                games[i].Publisher = this._context.Publishers.FirstOrDefault(m => m.PublisherId == publisherId);
-                games[i].Developer = this._context.Developers.FirstOrDefault(m => m.DeveloperId == developerId);
-                games[i].Region = this._context.Regions.FirstOrDefault(m => m.RegionId == regionId);
+                games[i].Publisher = this._context.Publishers.FirstOrDefault(m => m.PublisherId == games[i].PublisherId);
+                games[i].Developer = this._context.Developers.FirstOrDefault(m => m.DeveloperId == games[i].DeveloperId);
+                games[i].Region = this._context.Regions.FirstOrDefault(m => m.RegionId == games[i].RegionId);
             }
 
             var result = this._gameMapper.MapDto(games).ToList();
@@ -107,12 +95,9 @@ namespace CartDB.API.Handlers
 
             for (var i = 0; i < games.Count; i++)
             {
-                var publisherId = this._context.Games.Select(p => p.PublisherId).FirstOrDefault();
-                var developerId = this._context.Games.Select(p => p.DeveloperId).FirstOrDefault();
-                var regionId = this._context.Games.Select(p => p.RegionId).FirstOrDefault();
-                games[i].Publisher = this._context.Publishers.FirstOrDefault(m => m.PublisherId == publisherId);
-                games[i].Developer = this._context.Developers.FirstOrDefault(m => m.DeveloperId == developerId);
-                games[i].Region = this._context.Regions.FirstOrDefault(m => m.RegionId == regionId);
+                games[i].Publisher = this._context.Publishers.FirstOrDefault(m => m.PublisherId == games[i].PublisherId);
+                games[i].Developer = this._context.Developers.FirstOrDefault(m => m.DeveloperId == games[i].DeveloperId);
+                games[i].Region = this._context.Regions.FirstOrDefault(m => m.RegionId == games[i].RegionId);
             }
 
             var result = this._gameMapper.MapDto(games).ToList();
@@ -127,12 +112,9 @@ namespace CartDB.API.Handlers
 
             for (var i = 0; i < games.Count; i++)
             {
-                var publisherId = this._context.Games.Select(p => p.PublisherId).FirstOrDefault();
-                var developerId = this._context.Games.Select(p => p.DeveloperId).FirstOrDefault();
-                var regionId = this._context.Games.Select(p => p.RegionId).FirstOrDefault();
-                games[i].Publisher = this._context.Publishers.FirstOrDefault(m => m.PublisherId == publisherId);
-                games[i].Developer = this._context.Developers.FirstOrDefault(m => m.DeveloperId == developerId);
-                games[i].Region = this._context.Regions.FirstOrDefault(m => m.RegionId == regionId);
+                games[i].Publisher = this._context.Publishers.FirstOrDefault(m => m.PublisherId == games[i].PublisherId);
+                games[i].Developer = this._context.Developers.FirstOrDefault(m => m.DeveloperId == games[i].DeveloperId);
+                games[i].Region = this._context.Regions.FirstOrDefault(m => m.RegionId == games[i].RegionId);
             }
 
             var result = this._gameMapper.MapDto(games).ToList();
@@ -147,12 +129,9 @@ namespace CartDB.API.Handlers
 
             for (var i = 0; i < games.Count; i++)
             {
-                var publisherId = this._context.Games.Select(p => p.PublisherId).FirstOrDefault();
-                var developerId = this._context.Games.Select(p => p.DeveloperId).FirstOrDefault();
-                var regionId = this._context.Games.Select(p => p.RegionId).FirstOrDefault();
-                games[i].Publisher = this._context.Publishers.FirstOrDefault(m => m.PublisherId == publisherId);
-                games[i].Developer = this._context.Developers.FirstOrDefault(m => m.DeveloperId == developerId);
-                games[i].Region = this._context.Regions.FirstOrDefault(m => m.RegionId == regionId);
+                games[i].Publisher = this._context.Publishers.FirstOrDefault(m => m.PublisherId == games[i].PublisherId);
+                games[i].Developer = this._context.Developers.FirstOrDefault(m => m.DeveloperId == games[i].DeveloperId);
+                games[i].Region = this._context.Regions.FirstOrDefault(m => m.RegionId == games[i].RegionId);
             }
 
             var result = this._gameMapper.MapDto(games).ToList();
@@ -167,12 +146,9 @@ namespace CartDB.API.Handlers
 
             for (var i = 0; i < games.Count; i++)
             {
-                var publisherId = this._context.Games.Select(p => p.PublisherId).FirstOrDefault();
-                var developerId = this._context.Games.Select(p => p.DeveloperId).FirstOrDefault();
-                var regionId = this._context.Games.Select(p => p.RegionId).FirstOrDefault();
-                games[i].Publisher = this._context.Publishers.FirstOrDefault(m => m.PublisherId == publisherId);
-                games[i].Developer = this._context.Developers.FirstOrDefault(m => m.DeveloperId == developerId);
-                games[i].Region = this._context.Regions.FirstOrDefault(m => m.RegionId == regionId);
+                games[i].Publisher = this._context.Publishers.FirstOrDefault(m => m.PublisherId == games[i].PublisherId);
+                games[i].Developer = this._context.Developers.FirstOrDefault(m => m.DeveloperId == games[i].DeveloperId);
+                games[i].Region = this._context.Regions.FirstOrDefault(m => m.RegionId == games[i].RegionId);
             }
 
             var result = this._gameMapper.MapDto(games).ToList();
@@ -187,12 +163,9 @@ namespace CartDB.API.Handlers
 
             for (var i = 0; i < games.Count; i++)
             {
-                var publisherId = this._context.Games.Select(p => p.PublisherId).FirstOrDefault();
-                var developerId = this._context.Games.Select(p => p.DeveloperId).FirstOrDefault();
-                var regionId = this._context.Games.Select(p => p.RegionId).FirstOrDefault();
-                games[i].Publisher = this._context.Publishers.FirstOrDefault(m => m.PublisherId == publisherId);
-                games[i].Developer = this._context.Developers.FirstOrDefault(m => m.DeveloperId == developerId);
-                games[i].Region = this._context.Regions.FirstOrDefault(m => m.RegionId == regionId);
+                games[i].Publisher = this._context.Publishers.FirstOrDefault(m => m.PublisherId == games[i].PublisherId);
+                games[i].Developer = this._context.Developers.FirstOrDefault(m => m.DeveloperId == games[i].DeveloperId);
+                games[i].Region = this._context.Regions.FirstOrDefault(m => m.RegionId == games[i].RegionId);
             }
 
             var result = this._gameMapper.MapDto(games).ToList();

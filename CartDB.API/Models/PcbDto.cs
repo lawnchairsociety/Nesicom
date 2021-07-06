@@ -21,5 +21,6 @@ namespace CartDB.API.Models
         public BatteryPresentType BatteryPresent { get; set; }
         public MirroringType Mirroring { get; set; }
         public string CIC { get; set; }
+        public string OtherChips { get; set; }
     }
 }

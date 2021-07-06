@@ -13,5 +13,7 @@ namespace CartDB.API.Models
         public string CatalogEntry { get; set; }
         public int? Players { get; set; }
         public DateTime? ReleaseDate { get; set; }
+        public string Peripherals { get; set; }
+        public string PeripheralsImage { get; set; }
     }
 }

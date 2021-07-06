@@ -23,11 +23,8 @@ namespace CartDB.API.Mappers
             return new CartridgeDto
             {
                 Id = model.CartridgeId,
-                // TODO - game
                 Manufacturer = manufacturerMapper.MapDto(model.Manufacturer),
                 Pcb = pcbMapper.MapDto(model.Pcb),
-                // TODO - cartridgechips
-                // TODO - images
                 Color = model.Color,
                 FormFactor = model.FormFactor,
                 EmbossedText = model.EmbossedText,
@@ -37,10 +34,10 @@ namespace CartDB.API.Mappers
                 BackLabelEntry = model.BackLabelEntry,
                 TwoDigitCode = model.TwoDigitCode,
                 Revision = model.Revision,
-                CICType = model.Cictype,
+                CICType = model.CICType,
                 Hardware = model.Hardware,
-                WRAM = model.Wram,
-                VRAM = model.Vram
+                WRAM = model.WRAM,
+                VRAM = model.VRAM
             };
         }
     }

@@ -5,6 +5,15 @@ namespace CartDB.Database.Data
 {
     public partial class NesicomContext : DbContext
     {
+        public NesicomContext()
+        {
+        }
+
+        public NesicomContext(DbContextOptions<NesicomContext> options)
+            : base(options)
+        {
+        }
+
         public DbSet<Cartridge> Cartridges { get; set; }
         public DbSet<CartridgeChip> CartridgeChips { get; set; }
         public DbSet<Developer> Developers { get; set; }

@@ -31,7 +31,9 @@ namespace CartDB.API.Mappers
                 Class = model.Class,
                 CatalogEntry = model.CatalogEntry,
                 Players = model.Players,
-                ReleaseDate = model.ReleaseDate
+                ReleaseDate = model.ReleaseDate,
+                Peripherals = model.Peripherals,
+                PeripheralsImage = model.PeripheralsImage
             };
         }
     }
