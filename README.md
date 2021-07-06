@@ -21,9 +21,10 @@ The project is broken up into the following parts:
 - EF Core Database library for the models created by the Parser and used by the API
 - Requires SQL Server or SQL Express to be installed locally
 - To initialize database:
-  1. Open Package Manager Console and select `CartDB.Database` from the `Default Project` dropdown
-  2. Run `Add-Migration`
-  3. Run `Update-Database`
+  1. Select `CartDB.Database` in the `Solution Explorer`
+  2. Open Package Manager Console and select `CartDB.Database` from the `Default Project` dropdown
+  3. Run `Add-Migration InitialCreate`
+  4. Run `Update-Database`
 
 ### CartDB.Parser
 - C# Console Appplication Project

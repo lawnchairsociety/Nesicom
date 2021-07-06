@@ -11,7 +11,6 @@ namespace CartDB.Database.Data
         public DbSet<Game> Games { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<Manufacturer> Manufacturers { get; set; }
-        public DbSet<OtherChip> OtherChips { get; set; }
         public DbSet<Pcb> Pcbs { get; set; }
         public DbSet<Publisher> Publishers { get; set; }
         public DbSet<Region> Regions { get; set; }

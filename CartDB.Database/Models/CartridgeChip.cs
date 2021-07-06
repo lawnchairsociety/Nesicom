@@ -10,7 +10,7 @@ namespace CartDB.Database.Models
         public Guid CartridgeChipId { get; set; }
         [Required]
         public string PartNumber { get; set; }
-        public Guid? ManufacturerId { get; set; }
+        public Guid? MfgId { get; set; }
         public Guid? CartridgeId { get; set; }
         public string? Designation { get; set; }
         public string? Type { get; set; }
@@ -18,6 +18,5 @@ namespace CartDB.Database.Models
 #nullable disable
 
         public Cartridge Cartridge { get; set; }
-        public Manufacturer Manufacturer { get; set; }
     }
 }

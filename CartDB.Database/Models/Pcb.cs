@@ -24,10 +24,10 @@ namespace CartDB.Database.Models
         public int BatteryPresent { get; set; }
         public int Mirroring { get; set; }
         public string? CIC { get; set; }
+        public string? OtherChips { get; set; }
 #nullable disable
 
         public ICollection<Image> Images { get; set; }
-        public ICollection<OtherChip> OtherChips { get; set; }
         public Manufacturer Manufacturer { get; set; }
     }
 }

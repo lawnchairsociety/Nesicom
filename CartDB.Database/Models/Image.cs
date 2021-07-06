@@ -9,5 +9,7 @@ namespace CartDB.Database.Models
         public Guid ImageId { get; set; }
         [Required]
         public string Filename { get; set; }
+        public Guid? PcbId { get; set; }
+        public Guid? CartridgeId { get; set; }
     }
 }
