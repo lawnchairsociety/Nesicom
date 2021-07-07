@@ -43,3 +43,6 @@ The project is broken up into the following parts:
 
 ## Database Design
 See [DATABASE.md](DATABASE.md)
+
+## Acknowledgements
+Thanks to [RustyCase](https://github.com/RustyCase) for the help with restructuring `CartDB.Parser`
