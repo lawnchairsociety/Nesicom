@@ -156,7 +156,7 @@ def main(whichScraper):
             os.makedirs('output')
 
         # write errors to file
-        pcb_error_file = open("output/ pcb-errors.txt", "w")
+        pcb_error_file = open("output/pcb-errors.txt", "w")
         for err in errors:
             pcb_error_file.write(err + "\n")
         pcb_error_file.close()
@@ -174,9 +174,9 @@ def main(whichScraper):
     # scrape the cartridge/game data
     if (scrapeCartData == True):
         # loop through pages (5000)
-        for i in range(1, 5000):
+        for i in range(1, 6):
             # wait a few seconds so as not to overload the server
-            time.sleep(5)
+            time.sleep(1)
 
             # where are we in the scrape?
             if (i % 50 == 0):
@@ -270,7 +270,6 @@ def main(whichScraper):
 
                 # get game info
                 game = gm.Game()
-                game.id = i
                 game.name = str(
                     soup.find("td", {"class": "headingmain"}).contents[0]
                 ).strip()
@@ -331,6 +330,7 @@ def main(whichScraper):
 
                 # get cartridge info
                 cartridge = cart.Cartridge()
+                
                 cartridge.id = i
                 if availablecarttokens["color"] == 1:
                     cartridge.color = str(
@@ -431,7 +431,6 @@ def main(whichScraper):
 
                 # get developer info
                 developer = dev.Developer()
-                developer.id = i
                 if availablecarttokens["developer"] == 1:
                     developer.name = str(
                         primary_data_table.find(text="Developer")
@@ -442,7 +441,6 @@ def main(whichScraper):
 
                 # get publisher info
                 publisher = pub.Publisher()
-                publisher.id = i
                 if availablecarttokens["publisher"] == 1:
                     publisher.name = str(
                         primary_data_table.find(text="Publisher")
@@ -453,7 +451,6 @@ def main(whichScraper):
 
                 # get region info
                 region = rgn.Region()
-                region.id = i
                 if availablecarttokens["region"] == 1:
                     region.name = str(
                         primary_data_table.find(text="Region")
@@ -468,7 +465,6 @@ def main(whichScraper):
 
                 # get producer info
                 producer = pro.Producer()
-                producer.id = i
                 if availablecarttokens["producer"] == 1:
                     if (
                         len(
@@ -500,7 +496,6 @@ def main(whichScraper):
                     for j in range(3, len(chip_info_table.find_all("tr")) - 1):
                         cartridgechip = cartchip.CartridgeChip()
                         cartridgechip.id = j - 2
-                        cartridgechip.cartid = i
                         if availablecarttokens["designation"] == 1:
                             cartridgechip.designation = str(
                                 chip_info_table.find_all("tr")[j].find_all("td")[0].contents[0]
@@ -538,20 +533,21 @@ def main(whichScraper):
                             ).strip()
 
                         # add cartridge chip to list
-                        cartridgechips.append(cartridgechip)
+                        cartridge.cartridgechips.append(cartridgechip)
+                
+                #add game to cartridge
+                cartridge.game = game
+                #add developer to cartridge
+                cartridge.developer = developer
+                #add publisher to cartridge
+                cartridge.publisher = publisher
+                #add region to cartridge
+                cartridge.region = region
+                #add producer to cartridge
+                cartridge.producer = producer
 
-                # add game to list
-                games.append(game)
                 # add cartridge to list
                 cartridges.append(cartridge)
-                # add developer to list
-                developers.append(developer)
-                # add publisher to list
-                publishers.append(publisher)
-                # add region to list
-                regions.append(region)
-                # add producer to list
-                producers.append(producer)
 
                 cart_scraped += 1
             except:
@@ -573,54 +569,15 @@ def main(whichScraper):
             cart_error_file.write(err + "\n")
         cart_error_file.close()
 
-        # write game data to json
-        jsonParse = [gObj.to_dict() for gObj in games]
-        jsonStr = json.dumps({"games": jsonParse})
-        game_file = open("output/games.json", "w")
-        n = game_file.write(jsonStr)
-        game_file.close()
-
         # write cartridge data to json
-        jsonParse = [cObj.to_dict() for cObj in cartridges]
-        jsonStr = json.dumps({"cartridges": jsonParse})
+        jsonParse = [cObj.toJSON() for cObj in cartridges]
+        jsonStr = "["
+        for j in jsonParse:
+            jsonStr += j + ","
+        jsonStr = jsonStr[:-1] + "]" # strip the last comma and add a ]
         cartridge_file = open("output/cartridges.json", "w")
         n = cartridge_file.write(jsonStr)
         cartridge_file.close()
-
-        # write cartridge chip data to json
-        jsonParse = [ccObj.to_dict() for ccObj in cartridgechips]
-        jsonStr = json.dumps({"cartridgechips": jsonParse})
-        cartridgechip_file = open("output/cartridgechips.json", "w")
-        n = cartridgechip_file.write(jsonStr)
-        cartridgechip_file.close()
-
-        # write developer data to json
-        jsonParse = [dObj.to_dict() for dObj in developers]
-        jsonStr = json.dumps({"developers": jsonParse})
-        developers_file = open("output/developers.json", "w")
-        n = developers_file.write(jsonStr)
-        developers_file.close()
-
-        # write publisher data to json
-        jsonParse = [pObj.to_dict() for pObj in publishers]
-        jsonStr = json.dumps({"publishers": jsonParse})
-        publisher_file = open("output/publishers.json", "w")
-        n = publisher_file.write(jsonStr)
-        publisher_file.close()
-
-        # write region data to json
-        jsonParse = [rObj.to_dict() for rObj in regions]
-        jsonStr = json.dumps({"regions": jsonParse})
-        region_file = open("output/regions.json", "w")
-        n = region_file.write(jsonStr)
-        region_file.close()
-
-        # write producer data to json
-        jsonParse = [prObj.to_dict() for prObj in producers]
-        jsonStr = json.dumps({"producers": jsonParse})
-        producer_file = open("output/producers.json", "w")
-        n = producer_file.write(jsonStr)
-        producer_file.close()
 
     end = time.time()
 

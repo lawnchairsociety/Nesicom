@@ -1,7 +1,5 @@
 class CartridgeChip:
     def __init__(self):
-        self.id = None
-        self.cartid = None
         self.partnumber = None
         self.manufacturer = None
         self.manufacturerImage = None
@@ -11,8 +9,6 @@ class CartridgeChip:
 
     def to_dict(self):
         return {
-            "id": self.id,
-            "cartid": self.cartid,
             "partnumber": self.partnumber,
             "manufacturer": self.manufacturer,
             "manufacturerImage": self.manufacturerImage,

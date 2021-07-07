@@ -1,3 +1,5 @@
+import json
+
 class Cartridge:
     def __init__(self):
         self.id = None
@@ -16,6 +18,15 @@ class Cartridge:
         self.wram = None
         self.vram = None
         self.images = []
+        self.developer = None
+        self.publisher = None
+        self.region = None
+        self.producer = None
+        self.game = None
+        self.cartridgechips = []
+
+    def toJSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__, indent=4)
 
     def to_dict(self):
         return {
@@ -35,4 +46,10 @@ class Cartridge:
             "wram": self.wram,
             "vram": self.vram,
             "images": self.images,
+            "developer": self.developer,
+            "publisher": self.publisher,
+            "region": self.region,
+            "producer": self.producer,
+            "game": self.game,
+            "cartridgechips": self.cartridgechips
         }
