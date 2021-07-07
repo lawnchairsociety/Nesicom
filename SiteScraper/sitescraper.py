@@ -174,7 +174,7 @@ def main(whichScraper):
     # scrape the cartridge/game data
     if (scrapeCartData == True):
         # loop through pages (5000)
-        for i in range(1, 6):
+        for i in range(1, 5000):
             # wait a few seconds so as not to overload the server
             time.sleep(1)
 
