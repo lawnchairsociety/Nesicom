@@ -12,30 +12,33 @@ namespace CartDB.Parser.Mappers
         {
             List<CartridgeChip> cartridgeChips = new List<CartridgeChip>();
 
-            foreach(var modelCartridgeChip in model)
+            foreach (var modelCartridgeChip in model)
             {
-                var cartridgeChip = context.CartridgeChips.FirstOrDefault(o => o.PartNumber == modelCartridgeChip.PartNumber);
-                if(cartridgeChip == null)
+                if (string.IsNullOrWhiteSpace(modelCartridgeChip.PartNumber))
                 {
-                    var manufacturer = context.Manufacturers.FirstOrDefault(o => o.ManufacturerName == modelCartridgeChip.Manufacturer);
-                    if (manufacturer == null)
-                    {
-                        manufacturer = new Manufacturer
-                        {
-                            ManufacturerName = modelCartridgeChip.Manufacturer,
-                            Image = modelCartridgeChip.ManufacturerImage
-                        };
-                    }
+                    continue;
+                }
 
-                    cartridgeChip = new CartridgeChip
+                var manufacturer = context.Manufacturers.FirstOrDefault(o => o.ManufacturerName == modelCartridgeChip.Manufacturer);
+                if (manufacturer == null)
+                {
+                    manufacturer = new Manufacturer
                     {
-                        PartNumber = modelCartridgeChip.PartNumber,
-                        Designation = modelCartridgeChip.Designation,
-                        Type = modelCartridgeChip.Type,
-                        Package = modelCartridgeChip.Package,
-                        Manufacturer = manufacturer
+                        ManufacturerName = modelCartridgeChip.Manufacturer,
+                        Image = modelCartridgeChip.ManufacturerImage
                     };
                 }
+
+                var cartridgeChip = new CartridgeChip
+                {
+                    PartNumber = modelCartridgeChip.PartNumber,
+                    Designation = modelCartridgeChip.Designation,
+                    Type = modelCartridgeChip.Type,
+                    Package = modelCartridgeChip.Package,
+                    Manufacturer = manufacturer
+                };
+
+                cartridgeChips.Add(cartridgeChip);
             }
 
             return cartridgeChips;

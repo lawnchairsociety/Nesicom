@@ -88,6 +88,13 @@ namespace CartDB.Parser.Mappers
                 .Select(o => new Image { Filename = o })
                 .ToList();
 
+            // otherchips
+            string otherchips = null;
+            if(!string.IsNullOrWhiteSpace(model.OtherChips) && model.OtherChips != "No mappers or additional chips present")
+            {
+                otherchips = model.OtherChips.Replace("Other chips used: ", "");
+            }
+
             return new Pcb
             {
                 PcbName = model.PcbName,
@@ -102,8 +109,8 @@ namespace CartDB.Parser.Mappers
                 ChrRam = model.CHRRam,
                 BatteryPresent = bPresent,
                 Mirroring = mirroring,
-                CIC = model.CIC,
-                OtherChips = model.OtherChips,
+                CIC = model.CIC.Replace("CIC versions used: ", ""),
+                OtherChips = otherchips,
                 Images = images,
                 Manufacturer = manufacturer
             };

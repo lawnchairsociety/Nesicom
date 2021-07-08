@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using CartDB.Database.Data;
 using CartDB.Parser.Mappers;
 using CartDB.Parser.Models;
@@ -59,38 +58,30 @@ namespace CartDB.Parser
             regionTimer.Reset();
             regionTimer.Start();
 
-            // pcb objects 
-            var pcbs = jsonPcbs.Pcbs
-                .GroupBy(o => o.PcbName)
-                .Select(o => o.First(x => !string.IsNullOrWhiteSpace(x.PcbName)))
-                .Select(o => PcbMapper.Map(o, context))
-                .ToList();
+            // pcb objects
+            foreach(var jPcb in jsonPcbs.Pcbs)
+            {
+                if(string.IsNullOrWhiteSpace(jPcb.PcbName))
+                {
+                    continue;
+                }
+
+                var pcb = PcbMapper.Map(jPcb, context);
+                context.Add(pcb);
+                context.SaveChanges();
+            }
 
             // cartridge objects
-            var cartridges = jsonCartridges
-                .GroupBy(o => o.Id)
-                .Select (o => o.First())
-                .Select(o => CartridgeMapper.Map(o, context))
-                .ToList();
+            foreach(var jCart in jsonCartridges)
+            {
+                var cartridge = CartridgeMapper.Map(jCart, context);
+                context.Add(cartridge);
+                context.SaveChanges();
+            }
 
             regionTimer.Stop();
 
             Console.WriteLine($"Building of database objects complete - {regionTimer.Elapsed}");
-            #endregion
-
-            #region Insert objects to database
-            regionTimer.Reset();
-            regionTimer.Start();
-
-            context.AddRange(pcbs);
-            context.SaveChanges();
-
-            context.AddRange(cartridges);
-            context.SaveChanges();
-
-            regionTimer.Stop();
-
-            Console.WriteLine($"Database inserts complete - {regionTimer.Elapsed}");
             #endregion
 
             overallTimer.Stop();
