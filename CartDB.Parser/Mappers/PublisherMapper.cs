@@ -1,30 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using CartDB.Database.Data;
 using CartDB.Database.Models;
-using CartDB.Parser.TransientModels;
+using CartDB.Parser.Models;
 
 namespace CartDB.Parser.Mappers
 {
     public static class PublisherMapper
     {
-        public static List<Publisher> MapData(List<TransientPublisherModel> publishers)
+        public static Publisher Map(PublisherModel model, NesicomContext context)
         {
-            var result = new List<Publisher>();
-
-            foreach (var pub in publishers)
+            var publisher = context.Publishers.FirstOrDefault(o => o.PublisherName == model.Name);
+            if (publisher == null)
             {
-                if (!string.IsNullOrEmpty(pub.Name) && result.Where(p => p.PublisherName == pub.Name).Count() == 0)
+                publisher = new Publisher
                 {
-                    result.Add(new Publisher
-                    {
-                        PublisherId = pub.Nid,
-                        PublisherName = pub.Name
-                    });
-                }
+                    PublisherName = model.Name
+                };
             }
 
-            return result;
+            return publisher;
+
+
+            
         }
     }
 }

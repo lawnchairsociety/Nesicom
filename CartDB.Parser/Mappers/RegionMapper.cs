@@ -1,31 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using CartDB.Database.Data;
 using CartDB.Database.Models;
-using CartDB.Parser.TransientModels;
+using CartDB.Parser.Models;
 
 namespace CartDB.Parser.Mappers
 {
     public static class RegionMapper
     {
-        public static List<Region> MapData(List<TransientRegionModel> regions)
+        public static Region Map(RegionModel model, NesicomContext context)
         {
-            var result = new List<Region>();
-
-            foreach (var reg in regions)
+            var region = context.Regions.FirstOrDefault(o => o.RegionName == model.Name);
+            if (region == null)
             {
-                if (!string.IsNullOrEmpty(reg.Name) && result.Where(r => r.RegionName == reg.Name).Count() == 0)
+                region = new Region
                 {
-                    result.Add(new Region
-                    {
-                        RegionId = reg.Nid,
-                        RegionName = reg.Name,
-                        Image = reg.Image
-                    });
-                }
+                    RegionName = model.Name,
+                    Image = model.Image
+                };
             }
 
-            return result;
+            return region;
         }
     }
 }

@@ -1,64 +1,78 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CartDB.Database.Data;
 using CartDB.Database.Models;
-using CartDB.Parser.TransientModels;
+using CartDB.Parser.Models;
 
 namespace CartDB.Parser.Mappers
 {
-    public class CartridgeMapper
+    public static class CartridgeMapper
     {
-        // (SPLIT THE HARDWARE TYPES INTO SEPARATE TABLE)
-        // (CREATE ENUM FOR MFGSTRPRESENT)
-        // (CREATE ENUM FOR CICTYPE)
-        public static List<Cartridge> MapData(List<TransientCartridgeModel> cartridges, List<TransientProducerModel> producers,
-            List<TransientGameModel> games, List<Image> images)
+        public static Cartridge Map(CartridgeModel model, NesicomContext context)
         {
-            var result = new List<Cartridge>();
-
-            foreach (var cartridge in cartridges)
+            //mfgstringpresent
+            bool? stringPresent = null;
+            switch(model.MfgStrPresent)
             {
-                var newCartridge = new Cartridge
-                {
-                    CartridgeId = cartridge.Nid,
-                    ManufacturerId = producers.Where(p => p.CartridgeId == cartridge.Nid).Select(p => p.Nid).FirstOrDefault(),
-                    GameId = games.Where(g => g.CartridgeId == cartridge.Nid).Select(g => g.Nid).FirstOrDefault(),
-                    Color = cartridge.Color,
-                    FormFactor = cartridge.FormFactor,
-                    EmbossedText = cartridge.EmbossedText,
-                    FrontLabelEntry = cartridge.FrontLabelEntry,
-                    SealOfQuality = cartridge.SealOfQuality,
-                    BackLabelEntry = cartridge.BackLabelEntry,
-                    TwoDigitCode = cartridge.TwoDigitCode,
-                    Revision = cartridge.Revision,
-                    CICType = cartridge.CICType,
-                    Hardware = cartridge.Hardware,
-                    WRAM = cartridge.WRAM,
-                    VRAM = cartridge.VRAM,
-                    Images = images.Where(i=> i.CartridgeId == cartridge.Nid).ToList()
-                };
-
-                switch(cartridge.MfgStrPresent)
-                {
-                    case "Yes":
-                        newCartridge.MfgStrPresent = true;
-                        break;
-                    case "No":
-                        newCartridge.MfgStrPresent = false;
-                        break;
-                    default:
-                        newCartridge.MfgStrPresent = null;
-                        break;
-                }
-
-                result.Add(newCartridge);
-
-
+                case "Yes":
+                    stringPresent = true;
+                    break;
+                case "No":
+                    stringPresent = false;
+                    break;
+                default:
+                    stringPresent = null;
+                    break;
             }
 
-            return result;
+            // images
+            var images = model.Images
+                .Select(o => new Image { Filename = o })
+                .ToList();
+
+            // manufacturer
+            var modelManufacturer = model.Producer;
+            var manufacturer = context.Manufacturers.FirstOrDefault(o => o.ManufacturerName == modelManufacturer.Name);
+            if (manufacturer == null)
+            {
+                manufacturer = ManufacturerMapper.Map(modelManufacturer, context);
+            }
+
+            // game
+            var modelGame = model.Game;
+            var game = context.Games.FirstOrDefault(o => o.GameName == modelGame.Name && o.CatalogEntry == modelGame.CatalogEntry);
+            if (game == null)
+            {
+                game = GameMapper.Map(modelGame, context);
+            }
+
+            // pcb
+            var pcb = context.Pcbs.FirstOrDefault(o => o.PcbName == model.Pcb);
+
+            // cartridgechips
+            var cartridgeChips = CartridgeChipMapper.Map(model.CartridgeChips, context);
+
+            return new Cartridge
+            {
+                Color = model.Color,
+                FormFactor = model.FormFactor,
+                EmbossedText = model.EmbossedText,
+                FrontLabelEntry = model.FrontLabelEntry,
+                SealOfQuality = model.SealOfQuality,
+                MfgStrPresent = stringPresent,
+                BackLabelEntry = model.BackLabelEntry,
+                TwoDigitCode = model.TwoDigitCode,
+                Revision = model.Revision,
+                CICType = model.CICType,
+                Hardware = model.Hardware,
+                WRAM = model.WRAM,
+                VRAM = model.VRAM,
+                Images = images,
+                Manufacturer = manufacturer,
+                Game = game,
+                Pcb = pcb,
+                CartridgeChips = cartridgeChips
+            };
         }
     }
 }

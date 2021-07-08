@@ -1,66 +1,66 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CartDB.Database.Data;
 using CartDB.Database.Models;
-using CartDB.Parser.TransientModels;
+using CartDB.Parser.Models;
 
 namespace CartDB.Parser.Mappers
 {
     public static class GameMapper
     {
-        public static List<Game> MapData(List<TransientGameModel> games, List<Publisher> publishers,
-            List<Developer> developers, List<Region> regions)
+        public static Game Map(GameModel model, NesicomContext context)
         {
-            var result = new List<Game>();
-
-            foreach (var game in games)
+            // region
+            var regionModel = model.Region;
+            var region = context.Regions.FirstOrDefault(o => o.RegionName == regionModel.Name);
+            if (region == null)
             {
-                var newGame = new Game
-                {
-                    GameId = game.Nid,
-                    GameName = game.Name,
-                    Class = game.CartClass,
-                    CatalogEntry = game.CatalogEntry,
-                    PublisherId = null,
-                    DeveloperId = null,
-                    RegionId = null,
-                    Players = null,
-                    ReleaseDate = null,
-                    Peripherals = game.Peripherals,
-                    PeripheralsImage = game.Peripherals
-                };
-
-                if (publishers.Where(p => p.PublisherName == game.Publisher).Count() != 0)
-                {
-                    newGame.PublisherId = publishers.Where(p => p.PublisherName == game.Publisher).FirstOrDefault().PublisherId;
-                }
-
-                if (developers.Where(d => d.DeveloperName == game.Developer).Count() != 0)
-                {
-                    newGame.DeveloperId = developers.Where(d => d.DeveloperName == game.Developer).FirstOrDefault().DeveloperId;
-                }
-
-                if (regions.Where(r => r.RegionName == game.Region).Count() != 0)
-                {
-                    newGame.RegionId = regions.Where(r => r.RegionName == game.Region).FirstOrDefault().RegionId;
-                }
-                
-                if (DateTime.TryParse(game.ReleaseDate, out DateTime releaseDate))
-                {
-                    newGame.ReleaseDate = releaseDate;
-                }
-
-                if (Int32.TryParse(game.Players, out int playerCount))
-                {
-                    newGame.Players = playerCount;
-                }
-
-                result.Add(newGame);
+                region = RegionMapper.Map(regionModel, context);
             }
 
-            return result;
+            // publisher
+            var publisherModel = model.Publisher;
+            var publisher = context.Publishers.FirstOrDefault(o => o.PublisherName == publisherModel.Name);
+            if (publisher == null)
+            {
+                publisher = PublisherMapper.Map(publisherModel, context);
+            }
+
+            // developer
+            var developerModel = model.Developer;
+            var developer = context.Developers.FirstOrDefault(o => o.DeveloperName == developerModel.Name);
+            if (developer == null)
+            {
+                developer = DeveloperMapper.Map(developerModel, context);
+            }
+
+            // players
+            int? players = null;
+            if(int.TryParse(model.Players, out int tempPlayers))
+            {
+                players = tempPlayers;
+            }
+
+            // releasedate
+            DateTime? releaseDate = null;
+            if(DateTime.TryParse(model.ReleaseDate, out DateTime tempReleaseDate))
+            {
+                releaseDate = tempReleaseDate;
+            }
+
+            return new Game
+            {
+                GameName = model.Name,
+                Class = model.CartClass,
+                CatalogEntry = model.CatalogEntry,
+                Players = players,
+                ReleaseDate = releaseDate,
+                Peripherals = model.Peripherals,
+                PeripheralsImage = model.PeripheralsImage,
+                Publisher = publisher,
+                Developer = developer,
+                Region = region
+            };
         }
     }
 }

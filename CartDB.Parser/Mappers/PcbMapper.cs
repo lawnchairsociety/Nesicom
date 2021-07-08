@@ -1,113 +1,112 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using CartDB.Database.Data;
 using CartDB.Database.Models;
-using CartDB.Parser.TransientModels;
+using CartDB.Parser.Models;
 
 namespace CartDB.Parser.Mappers
 {
-    public class PcbMapper
+    public static class PcbMapper
     {
-        // (CREATE ENUM FOR BATTERYPRESENT)
-        // (CREATE ENUM FOR MIRRORING)
-        // (REMOVE "CIC versions used: " FROM CIC)
-        // (REMOVE "Other chips used: " FROM OTHERCHIPS)
-        // (REPLACE "No mappers or additional chips present" WITH "None" FOR OTHERCHIPS)
-        public static List<Pcb> MapData(List<TransientPcbModel> pcbs, List<Manufacturer> manufacturers, List<Image> images)
+        public static Pcb Map(PcbModel model, NesicomContext context)
         {
-            var result = new List<Pcb>();
-
-            foreach (var pcb in pcbs)
+            // manufacturer
+            var manufacturer = context.Manufacturers.FirstOrDefault(o => o.ManufacturerName == model.Manufacturer);
+            if (manufacturer == null)
             {
-                var newPcb = new Pcb
+                manufacturer = new Manufacturer
                 {
-                    PcbId = pcb.Nid,
-                    ManufacturerId = null,
-                    PcbName = pcb.PcbName,
-                    PcbNotes = pcb.PcbNotes,
-                    PcbClass = pcb.PcbClass,
-                    Mapper = pcb.Mapper,
-                    PrgRom = pcb.PRGRom,
-                    PrgRam = pcb.PRGRam,
-                    ChrRom = pcb.CHRRom,
-                    ChrRam = pcb.CHRRam,
-                    BatteryPresent = 0,
-                    Mirroring = 0,
-                    CIC = pcb.CIC.Replace("CIC versions used: ", ""),
-                    OtherChips = pcb.OtherChips.Replace("Other chips used: ", "").Replace("No mappers or additional chips present", "None"),
-                    Images = images.Where(i => i.PcbId == pcb.Nid).ToList()
+                    ManufacturerName = model.Manufacturer,
+                    Image = model.ManufacturerLogo
                 };
-
-                // manufacturer id
-                if (manufacturers.Where(m => m.ManufacturerName == pcb.Manufacturer).Count() != 0)
-                {
-                    newPcb.ManufacturerId = manufacturers.Where(m => m.ManufacturerName == pcb.Manufacturer).FirstOrDefault().ManufacturerId;
-                }
-
-                // lifespans
-                if (string.IsNullOrEmpty(pcb.LifeSpan))
-                {
-                    newPcb.LifeSpanStart = null;
-                    newPcb.LifeSpanEnd = null;
-                }
-                else
-                {
-                    var lfParts = pcb.LifeSpan.Split(" - ");
-                    newPcb.LifeSpanStart = DateTime.Parse(lfParts[0]);
-
-                    if (lfParts.Length > 1)
-                    {
-                        newPcb.LifeSpanEnd = DateTime.Parse(lfParts[1]);
-                    }
-                }
-
-                // batteryPresent
-                switch(pcb.BatteryPresent)
-                {
-                    case "Battery is not available":
-                        newPcb.BatteryPresent = 1;
-                        break;
-                    case "Battery is optional":
-                        newPcb.BatteryPresent = 2;
-                        break;
-                    case "Battery is present":
-                        newPcb.BatteryPresent = 3;
-                        break;
-                    default:
-                        newPcb.BatteryPresent = 0;
-                        break;
-                }
-
-                // mirroring
-                switch (pcb.Mirroring)
-                {
-                    case "Uses vertical mirroring":
-                        newPcb.Mirroring = 1;
-                        break;
-                    case "Uses mapper controlled mirroring":
-                        newPcb.Mirroring = 2;
-                        break;
-                    case "Uses horizontal or vertical mirroring":
-                        newPcb.Mirroring = 3;
-                        break;
-                    case "Uses horizontal mirroring":
-                        newPcb.Mirroring = 4;
-                        break;
-                    case "Uses four screen mirroring":
-                        newPcb.Mirroring = 5;
-                        break;
-                    case "Uses one screen mirroring":
-                        newPcb.Mirroring = 6;
-                        break;
-                    default:
-                        newPcb.Mirroring = 0;
-                        break;
-                }
-
-                result.Add(newPcb);
             }
 
-            return result;
+            // lifespan
+            DateTime? lfStart = null;
+            DateTime? lfEnd = null;
+
+            if (!string.IsNullOrEmpty(model.LifeSpan))
+            {
+                var lfParts = model.LifeSpan.Split(" - ");
+                lfStart = DateTime.Parse(lfParts[0]);
+
+                if (lfParts.Length > 1)
+                {
+                    lfEnd = DateTime.Parse(lfParts[1]);
+                }
+            }
+
+            // batteryPresent
+            var bPresent = 0;
+
+            switch (model.BatteryPresent)
+            {
+                case "Battery is not available":
+                    bPresent = 1;
+                    break;
+                case "Battery is optional":
+                    bPresent = 2;
+                    break;
+                case "Battery is present":
+                    bPresent = 3;
+                    break;
+                default:
+                    bPresent = 0;
+                    break;
+            }
+
+            // mirroring
+            var mirroring = 0;
+
+            switch (model.Mirroring)
+            {
+                case "Uses vertical mirroring":
+                    mirroring = 1;
+                    break;
+                case "Uses mapper controlled mirroring":
+                    mirroring = 2;
+                    break;
+                case "Uses horizontal or vertical mirroring":
+                    mirroring = 3;
+                    break;
+                case "Uses horizontal mirroring":
+                    mirroring = 4;
+                    break;
+                case "Uses four screen mirroring":
+                    mirroring = 5;
+                    break;
+                case "Uses one screen mirroring":
+                    mirroring = 6;
+                    break;
+                default:
+                    mirroring = 0;
+                    break;
+            }
+
+            // images
+            var images = model.PcbImages
+                .Select(o => new Image { Filename = o })
+                .ToList();
+
+            return new Pcb
+            {
+                PcbName = model.PcbName,
+                PcbNotes = model.PcbNotes,
+                LifeSpanStart = lfStart,
+                LifeSpanEnd = lfEnd,
+                PcbClass = model.PcbClass,
+                Mapper = model.Mapper,
+                PrgRom = model.PRGRom,
+                PrgRam = model.PRGRam,
+                ChrRom = model.CHRRom,
+                ChrRam = model.CHRRam,
+                BatteryPresent = bPresent,
+                Mirroring = mirroring,
+                CIC = model.CIC,
+                OtherChips = model.OtherChips,
+                Images = images,
+                Manufacturer = manufacturer
+            };
         }
     }
 }

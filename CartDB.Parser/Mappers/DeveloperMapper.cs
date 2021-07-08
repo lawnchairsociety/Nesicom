@@ -1,31 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using CartDB.Database.Data;
 using CartDB.Database.Models;
-using CartDB.Parser.TransientModels;
+using CartDB.Parser.Models;
 
 namespace CartDB.Parser.Mappers
 {
     public static class DeveloperMapper
     {
-        // (DROP IF NAME EMPTY)
-        public static List<Developer> MapData(List<TransientDeveloperModel> developers)
+        public static Developer Map(DeveloperModel model, NesicomContext context)
         {
-            var result = new List<Developer>();
-
-            foreach(var dev in developers)
+            var developer = context.Developers.FirstOrDefault(o => o.DeveloperName == model.Name);
+            if (developer == null)
             {
-                if (!string.IsNullOrEmpty(dev.Name) && result.Where(d => d.DeveloperName == dev.Name).Count() == 0)
+                developer = new Developer
                 {
-                    result.Add(new Developer
-                    {
-                        DeveloperId = dev.Nid,
-                        DeveloperName = dev.Name
-                    });
-                }
+                    DeveloperName = model.Name
+                };
             }
 
-            return result;
+
+
+            return developer;
         }
     }
 }
