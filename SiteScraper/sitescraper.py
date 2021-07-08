@@ -174,7 +174,7 @@ def main(whichScraper):
     # scrape the cartridge/game data
     if (scrapeCartData == True):
         # loop through pages (5000)
-        for i in range(1, 5000):
+        for i in range(1, 2):
             # wait a few seconds so as not to overload the server
             time.sleep(1)
 
@@ -535,14 +535,14 @@ def main(whichScraper):
                         # add cartridge chip to list
                         cartridge.cartridgechips.append(cartridgechip)
                 
+                #add developer to game
+                cartridge.game.developer = developer
+                #add publisher to game
+                cartridge.game.publisher = publisher
+                #add region to game
+                cartridge.game.region = region
                 #add game to cartridge
                 cartridge.game = game
-                #add developer to cartridge
-                cartridge.developer = developer
-                #add publisher to cartridge
-                cartridge.publisher = publisher
-                #add region to cartridge
-                cartridge.region = region
                 #add producer to cartridge
                 cartridge.producer = producer
 

@@ -18,9 +18,6 @@ class Cartridge:
         self.wram = None
         self.vram = None
         self.images = []
-        self.developer = None
-        self.publisher = None
-        self.region = None
         self.producer = None
         self.game = None
         self.cartridgechips = []
@@ -46,9 +43,6 @@ class Cartridge:
             "wram": self.wram,
             "vram": self.vram,
             "images": self.images,
-            "developer": self.developer,
-            "publisher": self.publisher,
-            "region": self.region,
             "producer": self.producer,
             "game": self.game,
             "cartridgechips": self.cartridgechips
