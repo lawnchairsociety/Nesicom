@@ -10,9 +10,8 @@ namespace CartDB.Database.Models
         public Guid GameId { get; set; }
         [Required]
         public string GameName { get; set; }
-        [Required]
         public string? Class { get; set; }
-        public string? CatalogEntry { get; set; }
+        public string CatalogEntry { get; set; }
         public Guid? PublisherId { get; set; }
         public Guid? DeveloperId { get; set; }
         public Guid? RegionId { get; set; }
@@ -22,8 +21,8 @@ namespace CartDB.Database.Models
         public string? PeripheralsImage { get; set; }
 #nullable disable
 
-        public Publisher Publisher { get; set; }
-        public Developer Developer { get; set; }
-        public Region Region { get; set; }
+        public virtual Publisher Publisher { get; set; }
+        public virtual Developer Developer { get; set; }
+        public virtual Region Region { get; set; }
     }
 }

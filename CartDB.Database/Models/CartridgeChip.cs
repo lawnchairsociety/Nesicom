@@ -17,7 +17,7 @@ namespace CartDB.Database.Models
         public string? Package { get; set; }
 #nullable disable
 
-        public Cartridge Cartridge { get; set; }
-        public Manufacturer? Manufacturer { get; set; }
+        public virtual Cartridge Cartridge { get; set; }
+        public virtual Manufacturer Manufacturer { get; set; }
     }
 }

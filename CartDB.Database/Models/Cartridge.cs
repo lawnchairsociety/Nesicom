@@ -6,6 +6,12 @@ namespace CartDB.Database.Models
 {
     public class Cartridge
     {
+        public Cartridge()
+        {
+            Images = new HashSet<Image>();
+            CartridgeChips = new HashSet<CartridgeChip>();
+        }
+
 #nullable enable
         [Key]
         public Guid CartridgeId { get; set; }
@@ -27,9 +33,10 @@ namespace CartDB.Database.Models
         public string? VRAM { get; set; }
 #nullable disable
 
-        public ICollection<Image> Images { get; set; }
-        public Manufacturer? Manufacturer { get; set; }
-        public Game Game { get; set; }
-        public Pcb Pcb { get; set; }
+        public virtual ICollection<Image> Images { get; set; }
+        public virtual ICollection<CartridgeChip> CartridgeChips { get; set; }
+        public virtual Manufacturer Manufacturer { get; set; }
+        public virtual Game Game { get; set; }
+        public virtual Pcb Pcb { get; set; }
     }
 }

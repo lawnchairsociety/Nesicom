@@ -6,6 +6,11 @@ namespace CartDB.Database.Models
 {
     public class Pcb
     {
+        public Pcb()
+        {
+            Images = new HashSet<Image>();
+        }
+
 #nullable enable
         [Key]
         public Guid PcbId { get; set; }
@@ -27,7 +32,7 @@ namespace CartDB.Database.Models
         public string? OtherChips { get; set; }
 #nullable disable
 
-        public ICollection<Image> Images { get; set; }
-        public Manufacturer Manufacturer { get; set; }
+        public virtual ICollection<Image> Images { get; set; }
+        public virtual Manufacturer Manufacturer { get; set; }
     }
 }
