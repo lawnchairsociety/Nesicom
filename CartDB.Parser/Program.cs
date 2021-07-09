@@ -41,14 +41,6 @@ namespace CartDB.Parser
             var jsonCartridges = JsonConvert.DeserializeObject<List<CartridgeModel>>(cartContent);
             var jsonPcbs = JsonConvert.DeserializeObject<PcbListModel>(pcbContent);
 
-            // temp fix for Developer/Publisher/Region placement
-            foreach (var jsonCartridge in jsonCartridges)
-            {
-                jsonCartridge.Game.Developer = jsonCartridge.Developer;
-                jsonCartridge.Game.Publisher = jsonCartridge.Publisher;
-                jsonCartridge.Game.Region = jsonCartridge.Region;
-            }
-
             regionTimer.Stop();
 
             Console.WriteLine($"Deserializing JSON files complete - {regionTimer.Elapsed}");
