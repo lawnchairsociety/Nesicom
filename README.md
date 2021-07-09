@@ -7,6 +7,7 @@ The project is broken up into the following parts:
 - CartDB.API
 - CartDB.Database
 - CartDB.Parser
+- CartDB.Downloader
 - SiteScraper
 
 ## Projects
@@ -30,6 +31,11 @@ The project is broken up into the following parts:
 - C# Console Appplication Project
 - .Net 5
 - Parses the CartScraper and PCBScraper JSON data into C# models, makes some adjustments, downloads any images, and outputs SQL insertion files.
+
+### CartDB.Downloader
+- C# Console Appplication Project
+- .Net 5
+- Scans the database for any image URLs, downloads them, then updates the URL with the new filename.
 
 ### SiteScraper
 - Python Project

@@ -31,11 +31,11 @@
 | PcbId          | uniqueidentifier    | `false`    |  NEWSEQUENTIALID()   |           |
 | ManufacturerId | uniqueidentifier    | `true`     |                      |           |
 | PcbName        | nvarchar(max)       | `false`    |                      |           |
-| PcbNotes       | nvarchar(max)       | `false`    |                      |           |
+| PcbNotes       | nvarchar(max)       | `true`     |                      |           |
 | LifeSpanStart  | datetime            | `true`     |                      |           |
 | LifeSpanEnd    | datetime            | `true`     |                      |           |
-| PcbClass       | nvarchar(max)       | `false`    |                      |           |
-| Mapper         | nvarchar(max)       | `false`    |                      |           |
+| PcbClass       | nvarchar(max)       | `true`     |                      |           |
+| Mapper         | nvarchar(max)       | `true`     |                      |           |
 | PrgRom         | nvarchar(max)       | `true`     |                      |           |
 | PrgRam         | nvarchar(max)       | `true`     |                      |           |
 | ChrRom         | nvarchar(max)       | `true`     |                      |           |
@@ -43,6 +43,7 @@
 | BatteryPresent | int                 | `false`    | 0                    |           |
 | Mirroring      | int                 | `false`    | 0                    |           |
 | CIC            | nvarchar(max)       | `true`     |                      |           |
+| OtherChips     | nvarchar(max)       | `true`     |                      |           |
 
 \
 &nbsp;
@@ -70,6 +71,7 @@
 |------------------|---------------------|------------|----------------------|-----------|
 | ManufacturerId   | uniqueidentifier    | `false`    |  NEWSEQUENTIALID()   |           |
 | ManufacturerName | nvarchar(max)       | `false`    |                      |           |
+| Image            | nvarchar(max)       | `true`     |                      |           |
 
 \
 &nbsp;
@@ -92,7 +94,6 @@
 |----------------------|-----------|----------|
 | GameId               | `false`   | `false`  |
 | GameName             | `false`   | `false`  |
-| Class                | `false`   | `false`  |
 | CatalogEntry         | `false`   | `false`  |
 
 ## `Foreign Keys[]`
@@ -105,17 +106,19 @@
 
 ## `Columns[]`
 
-| `Name`       | `Type`              | `Nullable` | `Default`            | `Comment` |
-|--------------|---------------------|------------|----------------------|-----------|
-| GameId       | uniqueidentifier    | `false`    |  NEWSEQUENTIALID()   |           |
-| GameName     | nvarchar(max)       | `false`    |                      |           |
-| Class        | nvarchar(max)       | `false`    |                      |           |
-| CatalogEntry | nvarchar(max)       | `true`     |                      |           |
-| PublisherId  | uniqueidentifier    | `true`     |                      |           |
-| DeveloperId  | uniqueidentifier    | `true`     |                      |           |
-| RegionId     | uniqueidentifier    | `true`     |                      |           |
-| Players      | int                 | `true`     |                      |           |
-| ReleaseDate  | datetime            | `true`     |                      |           |
+| `Name`           | `Type`              | `Nullable` | `Default`            | `Comment` |
+|------------------|---------------------|------------|----------------------|-----------|
+| GameId           | uniqueidentifier    | `false`    |  NEWSEQUENTIALID()   |           |
+| GameName         | nvarchar(max)       | `false`    |                      |           |
+| Class            | nvarchar(max)       | `true`     |                      |           |
+| CatalogEntry     | nvarchar(max)       | `false`    |                      |           |
+| PublisherId      | uniqueidentifier    | `true`     |                      |           |
+| DeveloperId      | uniqueidentifier    | `true`     |                      |           |
+| RegionId         | uniqueidentifier    | `true`     |                      |           |
+| Players          | int                 | `true`     |                      |           |
+| ReleaseDate      | datetime            | `true`     |                      |           |
+| Peripherals      | nvarchar(max)       | `true`     |                      |           |
+| PeripheralsImage | nvarchar(max)       | `true`     |                      |           |
 
 \
 &nbsp;
@@ -200,6 +203,7 @@
 |--------------|---------------------|------------|----------------------|-----------|
 | RegionId     | uniqueidentifier    | `false`    |  NEWSEQUENTIALID()   |           |
 | RegionName   | nvarchar(max)       | `false`    |                      |           |
+| Image        | nvarchar(max)       | `true`     |                      |           |
 
 \
 &nbsp;
@@ -228,6 +232,7 @@
 | `Columns`      | `Ref Table`   | `Ref Columns`  | `Options` |
 |----------------|---------------|----------------|-----------|
 | ManufacturerId | Manufacturers | ManufacturerId |           |
+| GameId         | Games         | GameId         |           |
 | PcbId          | Pcbs          | PcbId          |           |
 
 ## `Columns[]`
@@ -236,6 +241,7 @@
 |-----------------|---------------------|------------|----------------------|-----------|
 | CartridgeId     | uniqueidentifier    | `false`    |  NEWSEQUENTIALID()   |           |
 | ManufacturerId  | uniqueidentifier    | `true`     |                      |           |
+| GameId          | uniqueidentifier    | `true`     |                      |           |
 | Color           | nvarchar(max)       | `true`     |                      |           |
 | FormFactor      | nvarchar(max)       | `true`     |                      |           |
 | EmbossedText    | nvarchar(max)       | `true`     |                      |           |
@@ -279,6 +285,7 @@
 | `Columns`      | `Ref Table`   | `Ref Columns`  | `Options` |
 | ---------------|---------------|----------------|-----------|
 | ManufacturerId | Manufacturers | ManufacturerId |           |
+| CartridgeId    | Cartridges    | CartridgeId    |           |
 
 ## `Columns[]`
 
@@ -287,46 +294,10 @@
 | CartridgeChipId | uniqueidentifier    | `false`    |  NEWSEQUENTIALID()   |           |
 | PartNumber      | nvarchar(max)       | `false`    |                      |           |
 | ManufacturerId  | uniqueidentifier    | `true`     |                      |           |
+| CartridgeId     | uniqueidentifier    | `true`     |                      |           |
 | Designation     | nvarchar(max)       | `true`     |                      |           |
 | Type            | nvarchar(max)       | `true`     |                      |           |
 | Package         | nvarchar(max)       | `true`     |                      |           |
-
-\
-&nbsp;
-\
-&nbsp;
-
-# Table: CartridgeCartridgeChips
-
-- `Name`: CartridgeCartridgeChips
-- `Comment`: Joining table of Cartridges to CartridgeChips
-
-## `Primary Key`
-
-- `Columns`: CartridgeCartridgeChipId
-- `Cluster`: `false`
-
-## `Indexes[]`
-
-| `Columns`                | `Cluster` | `Unique` |
-|--------------------------|-----------|----------|
-| CartridgeId              | `false`   | `false`  |
-| CartridgeChipId          | `false`   | `false`  |
-
-## `Foreign Keys[]`
-
-| `Columns`       | `Ref Table`    | `Ref Columns`   | `Options` |
-|-----------------|----------------|-----------------|-----------|
-| CartridgeId     | Cartridges     | CartridgeId     |           |
-| CartridgeChipId | CartridgeChips | CartridgeChipId |           |
-
-## `Columns[]`
-
-| `Name`                   | `Type`              | `Nullable` | `Default`            | `Comment` |
-|--------------------------|---------------------|------------|----------------------|-----------|
-| CartridgeCartridgeChipId | uniqueidentifier    | `false`    |  NEWSEQUENTIALID()   |           |
-| CartridgeId              | uniqueidentifier    | `false`    |                      |           |
-| CartridgeChipId          | uniqueidentifier    | `false`    |                      |           |
 
 \
 &nbsp;
@@ -349,189 +320,18 @@
 |----------------------|-----------|----------|
 | Filename             | `false`   | `false`  |
 
+## `Foreign Keys[]`
+
+| `Columns`      | `Ref Table`   | `Ref Columns`  | `Options` |
+| ---------------|---------------|----------------|-----------|
+| PcbId          | Pcbs          | PcbId          |           |
+| CartridgeId    | Cartridges    | CartridgeId    |           |
+
 ## `Columns[]`
 
 | `Name`       | `Type`              | `Nullable` | `Default`            | `Comment` |
 |--------------|---------------------|------------|----------------------|-----------|
 | ImageId      | uniqueidentifier    | `false`    |  NEWSEQUENTIALID()   |           |
 | Filename     | nvarchar(max)       | `false`    |                      |           |
-
-\
-&nbsp;
-\
-&nbsp;
-
-# Table: CartridgeImages
-
-- `Name`: CartridgeImages
-- `Comment`: Joining for Cartridges to Images
-
-## `Primary Key`
-
-- `Columns`: CartridgeImageId
-- `Cluster`: `false`
-
-## `Indexes[]`
-
-| `Columns`            | `Cluster` | `Unique` |
-|----------------------|-----------|----------|
-| CartridgeId          | `false`   | `false`  |
-| ImageId              | `false`   | `false`  |
-
-## `Foreign Keys[]`
-
-| `Columns`       | `Ref Table`    | `Ref Columns`   | `Options` |
-|-----------------|----------------|-----------------|-----------|
-| CartridgeId     | Cartridges     | CartridgeId     |           |
-| ImageId         | Images         | ImageId         |           |
-
-## `Columns[]`
-
-| `Name`           | `Type`              | `Nullable` | `Default`            | `Comment` |
-|------------------|---------------------|------------|----------------------|-----------|
-| CartridgeImageId | uniqueidentifier    | `false`    |  NEWSEQUENTIALID()   |           |
-| CartridgeId      | uniqueidentifier    | `false`    |                      |           |
-| ImageId          | uniqueidentifier    | `false`    |                      |           |
-
-\
-&nbsp;
-\
-&nbsp;
-
-# Table: PcbImages
-
-- `Name`: PcbImages
-- `Comment`: Joining for PCBs to Images
-
-## `Primary Key`
-
-- `Columns`: PcbImageId
-- `Cluster`: `false`
-
-## `Indexes[]`
-
-| `Columns`            | `Cluster` | `Unique` |
-|----------------------|-----------|----------|
-| PcbId                | `false`   | `false`  |
-| ImageId              | `false`   | `false`  |
-
-## `Foreign Keys[]`
-
-| `Columns`       | `Ref Table`    | `Ref Columns`   | `Options` |
-|-----------------|----------------|-----------------|-----------|
-| PcbId           | Pcbs           | PcbId           |           |
-| ImageId         | Images         | ImageId         |           |
-
-## `Columns[]`
-
-| `Name`           | `Type`              | `Nullable` | `Default`            | `Comment` |
-|------------------|---------------------|------------|----------------------|-----------|
-| PcbImageId       | uniqueidentifier    | `false`    |  NEWSEQUENTIALID()   |           |
-| PcbId            | uniqueidentifier    | `false`    |                      |           |
-| ImageId          | uniqueidentifier    | `false`    |                      |           |
-
-\
-&nbsp;
-\
-&nbsp;
-
-# Table: ManufacturerImages
-
-- `Name`: ManufacturerImages
-- `Comment`: Joining for Manufacturers to Images
-
-## `Primary Key`
-
-- `Columns`: ManufacturerImageId
-- `Cluster`: `false`
-
-## `Indexes[]`
-
-| `Columns`            | `Cluster` | `Unique` |
-|----------------------|-----------|----------|
-| ManufacturerId       | `false`   | `false`  |
-| ImageId              | `false`   | `false`  |
-
-## `Foreign Keys[]`
-
-| `Columns`       | `Ref Table`    | `Ref Columns`   | `Options` |
-|-----------------|----------------|-----------------|-----------|
-| ManufacturerId  | Manufacturers  | ManufacturerId  |           |
-| ImageId         | Images         | ImageId         |           |
-
-## `Columns[]`
-
-| `Name`              | `Type`              | `Nullable` | `Default`            | `Comment` |
-|---------------------|---------------------|------------|----------------------|-----------|
-| ManufacturerImageId | uniqueidentifier    | `false`    |  NEWSEQUENTIALID()   |           |
-| ManufacturerId      | uniqueidentifier    | `false`    |                      |           |
-| ImageId             | uniqueidentifier    | `false`    |                      |           |
-
-\
-&nbsp;
-\
-&nbsp;
-
-# Table: OtherChips
-
-- `Name`: OtherChips
-- `Comment`: Other chips found on the PCBs
-
-## `Primary Key`
-
-- `Columns`: OtherChipId
-- `Cluster`: `false`
-
-## `Indexes[]`
-
-| `Columns`            | `Cluster` | `Unique` |
-|----------------------|-----------|----------|
-| OtherChipId          | `false`   | `false`  |
-| OtherChipName        | `false`   | `false`  |
-
-
-## `Columns[]`
-
-| `Name`              | `Type`              | `Nullable` | `Default`            | `Comment` |
-|---------------------|---------------------|------------|----------------------|-----------|
-| OtherChipId         | uniqueidentifier    | `false`    |  NEWSEQUENTIALID()   |           |
-| OtherChipName       | nvarchar(max)       | `false`    |                      |           |
-
-\
-&nbsp;
-\
-&nbsp;
-
-# Table: PcbOtherChips
-
-- `Name`: PcbOtherChips
-- `Comment`: Joining for Pcbs to OtherChips
-
-## `Primary Key`
-
-- `Columns`: PcbOtherChipId
-- `Cluster`: `false`
-
-## `Indexes[]`
-
-| `Columns`            | `Cluster` | `Unique` |
-|----------------------|-----------|----------|
-| PcbOtherChipId       | `false`   | `false`  |
-| PcbId                | `false`   | `false`  |
-| OtherChipId          | `false`   | `false`  |
-
-## `Foreign Keys[]`
-
-| `Columns`       | `Ref Table`    | `Ref Columns`   | `Options` |
-|-----------------|----------------|-----------------|-----------|
-| PcbId           | Pcbs           | PcbId           |           |
-| OtherChipId     | OtherChips     | OtherChipId     |           |
-
-
-## `Columns[]`
-
-| `Name`              | `Type`              | `Nullable` | `Default`            | `Comment` |
-|---------------------|---------------------|------------|----------------------|-----------|
-| PcbOtherChipId      | uniqueidentifier    | `false`    |  NEWSEQUENTIALID()   |           |
-| PcbId               | uniqueidentifier    | `false`    |                      |           |
-| OtherChipId         | uniqueidentifier    | `false`    |                      |           |
+| PcbId        | uniqueidentifier    | `false`    |                      |           |
+| CartridgeId  | uniqueidentifier    | `false`    |                      |           |
