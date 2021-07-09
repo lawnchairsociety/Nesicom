@@ -39,7 +39,7 @@ namespace CartDB.Parser
             regionTimer.Start();
 
             var jsonCartridges = JsonConvert.DeserializeObject<List<CartridgeModel>>(cartContent);
-            var jsonPcbs = JsonConvert.DeserializeObject<PcbListModel>(pcbContent);
+            var jsonPcbs = JsonConvert.DeserializeObject<List<PcbModel>>(pcbContent);
 
             regionTimer.Stop();
 
@@ -51,7 +51,7 @@ namespace CartDB.Parser
             regionTimer.Start();
 
             // pcb objects
-            foreach(var jPcb in jsonPcbs.Pcbs)
+            foreach(var jPcb in jsonPcbs)
             {
                 if(string.IsNullOrWhiteSpace(jPcb.PcbName))
                 {

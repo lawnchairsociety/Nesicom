@@ -21,9 +21,4 @@ namespace CartDB.Parser.Models
         public string CIC { get; set; }
         public string OtherChips { get; set; }
     }
-
-    public class PcbListModel
-    {
-        public List<PcbModel> Pcbs { get; set; }
-    }
 }
