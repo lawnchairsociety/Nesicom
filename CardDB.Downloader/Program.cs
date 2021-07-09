@@ -69,7 +69,7 @@ namespace CartDB.Downloader
             var regionImages = context.Regions.Select(o => o.Image).Distinct().ToList();
             foreach (var image in regionImages)
             {
-                if (string.IsNullOrWhiteSpace(image))
+                if (string.IsNullOrWhiteSpace(image) || !image.Contains("http://"))
                 {
                     continue;
                 }
@@ -99,7 +99,7 @@ namespace CartDB.Downloader
             var peripheralsImages = context.Games.Select(o => o.PeripheralsImage).Distinct().ToList();
             foreach (var image in peripheralsImages)
             {
-                if (string.IsNullOrWhiteSpace(image))
+                if (string.IsNullOrWhiteSpace(image) || !image.Contains("http://"))
                 {
                     continue;
                 }
@@ -129,7 +129,7 @@ namespace CartDB.Downloader
             var pcbImages = context.Images.Where(o=>o.PcbId != null).Select(o => o.Filename).Distinct().ToList();
             foreach (var image in pcbImages)
             {
-                if (string.IsNullOrWhiteSpace(image))
+                if (string.IsNullOrWhiteSpace(image) || !image.Contains("http://"))
                 {
                     continue;
                 }
@@ -139,7 +139,7 @@ namespace CartDB.Downloader
                     try
                     {
                         var pcbFileId = image.Replace("http://bootgod.dyndns.org:7777/imagegen.php?ImageID=", "").Replace("&width=400", "");
-                        var newFileName = pcbFileId = ".png";
+                        var newFileName = pcbFileId + ".png";
 
 
                         Stream stream = client.OpenRead(image);
@@ -172,7 +172,7 @@ namespace CartDB.Downloader
             var cartImages = context.Images.Where(o => o.CartridgeId != null).Select(o => o.Filename).Distinct().ToList();
             foreach (var image in cartImages)
             {
-                if (string.IsNullOrWhiteSpace(image))
+                if (string.IsNullOrWhiteSpace(image) || !image.Contains("http://"))
                 {
                     continue;
                 }
