@@ -121,6 +121,8 @@ def main(whichScraper):
                 if manufacturer:
                     pcb.manufacturer = manufacturer.get("title")
                     pcb.manufacturerLogo = BASE_URL + manufacturer.get("src")
+                else:
+                    pcb.manufacturer = rows[0].find_all("th")[0].contents[0]
                 pcb.pcbName = rows[0].find("a").contents[0]
                 pcb.pcbNotes = rows[0].find_all("th")[1].contents[0]
 
