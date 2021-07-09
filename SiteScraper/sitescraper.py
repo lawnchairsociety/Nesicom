@@ -94,8 +94,8 @@ def main(whichScraper):
     if (scrapePCBData == True):
         # loop through pages (650)
         for i in range(1, 650):
-            # wait a few seconds so as not to overload the server
-            time.sleep(5)
+            # wait a second so as not to overload the server
+            time.sleep(1)
 
             # where are we in the scrape?
             if (i % 50 == 0):
@@ -162,8 +162,11 @@ def main(whichScraper):
         pcb_error_file.close()
 
         # write pcb data to json
-        jsonParse = [pObj.to_dict() for pObj in pcbs]
-        jsonStr = json.dumps({"pcbs": jsonParse})
+        jsonParse = [pObj.toJSON() for pObj in pcbs]
+        jsonStr = "["
+        for j in jsonParse:
+            jsonStr += j + ","
+        jsonStr = jsonStr[:-1] + "]"
         pcb_file = open("output/pcbs.json", "w")
         n = pcb_file.write(jsonStr)
         pcb_file.close()
@@ -174,8 +177,8 @@ def main(whichScraper):
     # scrape the cartridge/game data
     if (scrapeCartData == True):
         # loop through pages (5000)
-        for i in range(1, 2):
-            # wait a few seconds so as not to overload the server
+        for i in range(1, 5000):
+            # wait a second so as not to overload the server
             time.sleep(1)
 
             # where are we in the scrape?
@@ -535,14 +538,14 @@ def main(whichScraper):
                         # add cartridge chip to list
                         cartridge.cartridgechips.append(cartridgechip)
                 
+                #add game to cartridge
+                cartridge.game = game
                 #add developer to game
                 cartridge.game.developer = developer
                 #add publisher to game
                 cartridge.game.publisher = publisher
                 #add region to game
                 cartridge.game.region = region
-                #add game to cartridge
-                cartridge.game = game
                 #add producer to cartridge
                 cartridge.producer = producer
 

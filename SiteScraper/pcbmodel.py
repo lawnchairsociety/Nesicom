@@ -1,3 +1,5 @@
+import json
+
 class PCB:
     def __init__(self):
         self.id = None
@@ -17,6 +19,9 @@ class PCB:
         self.mirroring = None
         self.cic = None
         self.otherChips = None
+    
+    def toJSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__, indent=4)
 
     def to_dict(self):
         return {
