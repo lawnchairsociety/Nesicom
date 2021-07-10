@@ -79,6 +79,15 @@ namespace CartDB.API.IoC
             })
                 .As<IPublisherHandler>()
                 .InstancePerLifetimeScope();
+
+            builder.Register(context =>
+            {
+                var nesContext = context.Resolve<NesicomContext>();
+                
+                return new StatsHandler(nesContext);
+            })
+                .As<IStatsHandler>()
+                .InstancePerLifetimeScope();
         }
     }
 }
