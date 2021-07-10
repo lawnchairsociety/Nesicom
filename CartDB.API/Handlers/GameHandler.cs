@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using CartDB.API.Models;
 using CartDB.API.Mappers;
+using CartDB.API.Models;
 using CartDB.Database.Data;
 using Serilog;
 
@@ -23,9 +22,9 @@ namespace CartDB.API.Handlers
         }
 
 
-        public async Task<List<GameDto>> GetAllGamesAsync()
+        public async Task<List<GameDto>> GetAllGamesAsync(int offset, int count)
         {
-            var games = this._context.Games.ToList();
+            var games = this._context.Games.Skip(offset).Take(count).ToList();
 
             for (var i = 0; i < games.Count; i++)
             {
@@ -67,6 +66,20 @@ namespace CartDB.API.Handlers
             }
 
             var result = this._gameMapper.MapDto(games).ToList();
+
+            return result;
+        }
+
+        public async Task<GameDto> GetGameByCatalogEntryAsync(string catalogentry)
+        {
+            var game = this._context.Games
+                .FirstOrDefault(g => g.CatalogEntry == catalogentry);
+
+            game.Publisher = this._context.Publishers.FirstOrDefault(m => m.PublisherId == game.PublisherId);
+            game.Developer = this._context.Developers.FirstOrDefault(m => m.DeveloperId == game.DeveloperId);
+            game.Region = this._context.Regions.FirstOrDefault(m => m.RegionId == game.RegionId);
+
+            var result = this._gameMapper.MapDto(game);
 
             return result;
         }

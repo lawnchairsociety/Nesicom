@@ -1,8 +1,8 @@
+using Autofac.Extensions.DependencyInjection;
+using CartDB.API.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using CartDB.API.Configuration;
-using Autofac.Extensions.DependencyInjection;
 
 namespace CartDB.API
 {

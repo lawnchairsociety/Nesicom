@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using CartDB.API.Models;
 using CartDB.API.Mappers;
+using CartDB.API.Models;
 using CartDB.Database.Data;
 using CartDB.Database.Models;
 using Serilog;
@@ -23,14 +22,28 @@ namespace CartDB.API.Handlers
             this._cartridgeMapper = cartridgeMapper;
         }
 
-        public async Task<List<CartridgeDto>> GetAllCartridgesAsync()
+        public async Task<List<CartridgeDto>> GetAllCartridgesAsync(int offset, int count)
         {
-            var cartridges = this._context.Cartridges.ToList();
+            var cartridges = this._context.Cartridges.Skip(offset).Take(count).ToList();
 
             for (var i = 0; i < cartridges.Count; i++)
             {
                 cartridges[i].Manufacturer = this._context.Manufacturers.FirstOrDefault(m => m.ManufacturerId == cartridges[i].ManufacturerId);
                 cartridges[i].Pcb = this._context.Pcbs.FirstOrDefault(p => p.PcbId == cartridges[i].PcbId);
+                cartridges[i].Game = this._context.Games.FirstOrDefault(g => g.GameId == cartridges[i].GameId);
+                cartridges[i].Images = this._context.Images.Where(m => m.CartridgeId == cartridges[i].CartridgeId).ToList();
+                cartridges[i].CartridgeChips = this._context.CartridgeChips.Where(c => c.CartridgeId == cartridges[i].CartridgeId).ToList();
+
+                foreach (var chip in cartridges[i].CartridgeChips)
+                {
+                    chip.Manufacturer = this._context.Manufacturers.FirstOrDefault(c => c.ManufacturerId == chip.ManufacturerId);
+                }
+
+                cartridges[i].Pcb.Manufacturer = this._context.Manufacturers.FirstOrDefault(c => c.ManufacturerId == cartridges[i].Pcb.ManufacturerId);
+                cartridges[i].Pcb.Images = this._context.Images.Where(m => m.PcbId == cartridges[i].PcbId).ToList();
+                cartridges[i].Game.Developer = this._context.Developers.FirstOrDefault(c => c.DeveloperId == cartridges[i].Game.DeveloperId);
+                cartridges[i].Game.Publisher = this._context.Publishers.FirstOrDefault(c => c.PublisherId == cartridges[i].Game.PublisherId);
+                cartridges[i].Game.Region = this._context.Regions.FirstOrDefault(c => c.RegionId == cartridges[i].Game.RegionId);
             }
 
             var result = this._cartridgeMapper.MapDto(cartridges).ToList();
@@ -41,11 +54,24 @@ namespace CartDB.API.Handlers
         public async Task<CartridgeDto> GetCartridgeByIdAsync(Guid id)
         {
             var cartridge = this._context.Cartridges
-                            .Where(c => c.CartridgeId == id)
-                            .FirstOrDefault();
+                            .FirstOrDefault(c => c.CartridgeId == id);
 
             cartridge.Manufacturer = this._context.Manufacturers.FirstOrDefault(m => m.ManufacturerId == cartridge.ManufacturerId);
             cartridge.Pcb = this._context.Pcbs.FirstOrDefault(p => p.PcbId == cartridge.PcbId);
+            cartridge.Game = this._context.Games.FirstOrDefault(g => g.GameId == cartridge.GameId);
+            cartridge.Images = this._context.Images.Where(m => m.CartridgeId == cartridge.CartridgeId).ToList();
+            cartridge.CartridgeChips = this._context.CartridgeChips.Where(c => c.CartridgeId == cartridge.CartridgeId).ToList();
+
+            foreach(var chip in cartridge.CartridgeChips)
+            {
+                chip.Manufacturer = this._context.Manufacturers.FirstOrDefault(c => c.ManufacturerId == chip.ManufacturerId);
+            }
+
+            cartridge.Pcb.Manufacturer = this._context.Manufacturers.FirstOrDefault(c => c.ManufacturerId == cartridge.Pcb.ManufacturerId);
+            cartridge.Pcb.Images = this._context.Images.Where(m => m.PcbId == cartridge.PcbId).ToList();
+            cartridge.Game.Developer = this._context.Developers.FirstOrDefault(c => c.DeveloperId == cartridge.Game.DeveloperId);
+            cartridge.Game.Publisher = this._context.Publishers.FirstOrDefault(c => c.PublisherId == cartridge.Game.PublisherId);
+            cartridge.Game.Region = this._context.Regions.FirstOrDefault(c => c.RegionId == cartridge.Game.RegionId);
 
             var result = this._cartridgeMapper.MapDto(cartridge);
 
@@ -63,6 +89,20 @@ namespace CartDB.API.Handlers
             {
                 cartridges[i].Manufacturer = this._context.Manufacturers.FirstOrDefault(m => m.ManufacturerId == cartridges[i].ManufacturerId);
                 cartridges[i].Pcb = this._context.Pcbs.FirstOrDefault(p => p.PcbId == cartridges[i].PcbId);
+                cartridges[i].Game = this._context.Games.FirstOrDefault(g => g.GameId == cartridges[i].GameId);
+                cartridges[i].Images = this._context.Images.Where(m => m.CartridgeId == cartridges[i].CartridgeId).ToList();
+                cartridges[i].CartridgeChips = this._context.CartridgeChips.Where(c => c.CartridgeId == cartridges[i].CartridgeId).ToList();
+
+                foreach (var chip in cartridges[i].CartridgeChips)
+                {
+                    chip.Manufacturer = this._context.Manufacturers.FirstOrDefault(c => c.ManufacturerId == chip.ManufacturerId);
+                }
+
+                cartridges[i].Pcb.Manufacturer = this._context.Manufacturers.FirstOrDefault(c => c.ManufacturerId == cartridges[i].Pcb.ManufacturerId);
+                cartridges[i].Pcb.Images = this._context.Images.Where(m => m.PcbId == cartridges[i].PcbId).ToList();
+                cartridges[i].Game.Developer = this._context.Developers.FirstOrDefault(c => c.DeveloperId == cartridges[i].Game.DeveloperId);
+                cartridges[i].Game.Publisher = this._context.Publishers.FirstOrDefault(c => c.PublisherId == cartridges[i].Game.PublisherId);
+                cartridges[i].Game.Region = this._context.Regions.FirstOrDefault(c => c.RegionId == cartridges[i].Game.RegionId);
             }
 
             var result = this._cartridgeMapper.MapDto(cartridges).ToList();
@@ -88,6 +128,20 @@ namespace CartDB.API.Handlers
             {
                 cartridges[i].Manufacturer = this._context.Manufacturers.FirstOrDefault(m => m.ManufacturerId == cartridges[i].ManufacturerId);
                 cartridges[i].Pcb = this._context.Pcbs.FirstOrDefault(p => p.PcbId == cartridges[i].PcbId);
+                cartridges[i].Game = this._context.Games.FirstOrDefault(g => g.GameId == cartridges[i].GameId);
+                cartridges[i].Images = this._context.Images.Where(m => m.CartridgeId == cartridges[i].CartridgeId).ToList();
+                cartridges[i].CartridgeChips = this._context.CartridgeChips.Where(c => c.CartridgeId == cartridges[i].CartridgeId).ToList();
+
+                foreach (var chip in cartridges[i].CartridgeChips)
+                {
+                    chip.Manufacturer = this._context.Manufacturers.FirstOrDefault(c => c.ManufacturerId == chip.ManufacturerId);
+                }
+
+                cartridges[i].Pcb.Manufacturer = this._context.Manufacturers.FirstOrDefault(c => c.ManufacturerId == cartridges[i].Pcb.ManufacturerId);
+                cartridges[i].Pcb.Images = this._context.Images.Where(m => m.PcbId == cartridges[i].PcbId).ToList();
+                cartridges[i].Game.Developer = this._context.Developers.FirstOrDefault(c => c.DeveloperId == cartridges[i].Game.DeveloperId);
+                cartridges[i].Game.Publisher = this._context.Publishers.FirstOrDefault(c => c.PublisherId == cartridges[i].Game.PublisherId);
+                cartridges[i].Game.Region = this._context.Regions.FirstOrDefault(c => c.RegionId == cartridges[i].Game.RegionId);
             }
 
             var result = this._cartridgeMapper.MapDto(cartridges).ToList();
@@ -105,6 +159,20 @@ namespace CartDB.API.Handlers
             {
                 cartridges[i].Manufacturer = this._context.Manufacturers.FirstOrDefault(m => m.ManufacturerId == cartridges[i].ManufacturerId);
                 cartridges[i].Pcb = this._context.Pcbs.FirstOrDefault(p => p.PcbId == cartridges[i].PcbId);
+                cartridges[i].Game = this._context.Games.FirstOrDefault(g => g.GameId == cartridges[i].GameId);
+                cartridges[i].Images = this._context.Images.Where(m => m.CartridgeId == cartridges[i].CartridgeId).ToList();
+                cartridges[i].CartridgeChips = this._context.CartridgeChips.Where(c => c.CartridgeId == cartridges[i].CartridgeId).ToList();
+
+                foreach (var chip in cartridges[i].CartridgeChips)
+                {
+                    chip.Manufacturer = this._context.Manufacturers.FirstOrDefault(c => c.ManufacturerId == chip.ManufacturerId);
+                }
+
+                cartridges[i].Pcb.Manufacturer = this._context.Manufacturers.FirstOrDefault(c => c.ManufacturerId == cartridges[i].Pcb.ManufacturerId);
+                cartridges[i].Pcb.Images = this._context.Images.Where(m => m.PcbId == cartridges[i].PcbId).ToList();
+                cartridges[i].Game.Developer = this._context.Developers.FirstOrDefault(c => c.DeveloperId == cartridges[i].Game.DeveloperId);
+                cartridges[i].Game.Publisher = this._context.Publishers.FirstOrDefault(c => c.PublisherId == cartridges[i].Game.PublisherId);
+                cartridges[i].Game.Region = this._context.Regions.FirstOrDefault(c => c.RegionId == cartridges[i].Game.RegionId);
             }
 
             var result = this._cartridgeMapper.MapDto(cartridges).ToList();
@@ -122,6 +190,20 @@ namespace CartDB.API.Handlers
             {
                 cartridges[i].Manufacturer = this._context.Manufacturers.FirstOrDefault(m => m.ManufacturerId == cartridges[i].ManufacturerId);
                 cartridges[i].Pcb = this._context.Pcbs.FirstOrDefault(p => p.PcbId == cartridges[i].PcbId);
+                cartridges[i].Game = this._context.Games.FirstOrDefault(g => g.GameId == cartridges[i].GameId);
+                cartridges[i].Images = this._context.Images.Where(m => m.CartridgeId == cartridges[i].CartridgeId).ToList();
+                cartridges[i].CartridgeChips = this._context.CartridgeChips.Where(c => c.CartridgeId == cartridges[i].CartridgeId).ToList();
+
+                foreach (var chip in cartridges[i].CartridgeChips)
+                {
+                    chip.Manufacturer = this._context.Manufacturers.FirstOrDefault(c => c.ManufacturerId == chip.ManufacturerId);
+                }
+
+                cartridges[i].Pcb.Manufacturer = this._context.Manufacturers.FirstOrDefault(c => c.ManufacturerId == cartridges[i].Pcb.ManufacturerId);
+                cartridges[i].Pcb.Images = this._context.Images.Where(m => m.PcbId == cartridges[i].PcbId).ToList();
+                cartridges[i].Game.Developer = this._context.Developers.FirstOrDefault(c => c.DeveloperId == cartridges[i].Game.DeveloperId);
+                cartridges[i].Game.Publisher = this._context.Publishers.FirstOrDefault(c => c.PublisherId == cartridges[i].Game.PublisherId);
+                cartridges[i].Game.Region = this._context.Regions.FirstOrDefault(c => c.RegionId == cartridges[i].Game.RegionId);
             }
 
             var result = this._cartridgeMapper.MapDto(cartridges).ToList();

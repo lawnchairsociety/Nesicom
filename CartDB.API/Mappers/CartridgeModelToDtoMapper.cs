@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using CartDB.API.Models;
 using CartDB.Database.Models;
 
@@ -14,6 +10,9 @@ namespace CartDB.API.Mappers
         {
             ManufacturerModelToDtoMapper manufacturerMapper = new ManufacturerModelToDtoMapper();
             PcbModelToDtoMapper pcbMapper = new PcbModelToDtoMapper();
+            GameModelToDtoMapper gameMapper = new GameModelToDtoMapper();
+            ImageModelToDtoMapper imageMapper = new ImageModelToDtoMapper();
+            CartridgeChipModelToDtoMapper cartridgeChipMapper = new CartridgeChipModelToDtoMapper();
 
             if (model == null)
             {
@@ -23,6 +22,7 @@ namespace CartDB.API.Mappers
             return new CartridgeDto
             {
                 Id = model.CartridgeId,
+                Game = gameMapper.MapDto(model.Game),
                 Manufacturer = manufacturerMapper.MapDto(model.Manufacturer),
                 Pcb = pcbMapper.MapDto(model.Pcb),
                 Color = model.Color,
@@ -30,14 +30,16 @@ namespace CartDB.API.Mappers
                 EmbossedText = model.EmbossedText,
                 FrontLabelEntry = model.FrontLabelEntry,
                 SealOfQuality = model.SealOfQuality,
-                MfgStringPresent = model.MfgStrPresent.Value,
+                MfgStringPresent = model.MfgStrPresent,
                 BackLabelEntry = model.BackLabelEntry,
                 TwoDigitCode = model.TwoDigitCode,
                 Revision = model.Revision,
                 CICType = model.CICType,
                 Hardware = model.Hardware,
                 WRAM = model.WRAM,
-                VRAM = model.VRAM
+                VRAM = model.VRAM,
+                Images = imageMapper.MapDto(model.Images).ToList(),
+                CartridgeChips = cartridgeChipMapper.MapDto(model.CartridgeChips).ToList()
             };
         }
     }

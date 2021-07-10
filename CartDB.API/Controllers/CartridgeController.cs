@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using CartDB.API.Models;
-using Serilog;
 using CartDB.API.Handlers;
+using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace CartDB.API.Controllers
 {
@@ -20,12 +19,12 @@ namespace CartDB.API.Controllers
         }
 
         [HttpGet("list")]
-        public async Task<IActionResult> GetAllCartridges()
+        public async Task<IActionResult> GetAllCartridges(int offset = 0, int count = 25)
         {
             var ip = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             Logger.Information($"Cartridge.GetAllCartridges by {ip}");
 
-            var cartridges = await this._cartridgeHandler.GetAllCartridgesAsync();
+            var cartridges = await this._cartridgeHandler.GetAllCartridgesAsync(offset, count);
             return Ok(cartridges);
         }
 
@@ -77,24 +76,6 @@ namespace CartDB.API.Controllers
 
             var cartridges = await this._cartridgeHandler.GetCartridgesByChipIdAsync(id);
             return Ok(cartridges);
-        }
-
-        [HttpGet("region/name")]
-        public async Task<IActionResult> GetCartridgeByRegionName(string name)
-        {
-            var ip = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-            Logger.Information($"Cartridge.GetCartridgeByRegionName by {ip}");
-
-            return BadRequest();
-        }
-
-        [HttpGet("region/id")]
-        public async Task<IActionResult> GetCartridgeByRegionId(Guid id)
-        {
-            var ip = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-            Logger.Information($"Cartridge.GetCartridgeByRegionId by {ip}");
-
-            return BadRequest();
         }
     }
 }

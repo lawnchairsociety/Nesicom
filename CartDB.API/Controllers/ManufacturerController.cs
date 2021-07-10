@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using CartDB.API.Models;
-using Serilog;
 using CartDB.API.Handlers;
+using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace CartDB.API.Controllers
 {

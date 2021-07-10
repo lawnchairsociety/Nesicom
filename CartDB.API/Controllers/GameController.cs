@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using CartDB.API.Models;
-using Serilog;
 using CartDB.API.Handlers;
+using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace CartDB.API.Controllers
 {
@@ -20,12 +19,12 @@ namespace CartDB.API.Controllers
         }
 
         [HttpGet("list")]
-        public async Task<IActionResult> GetAllGames()
+        public async Task<IActionResult> GetAllGames(int offset = 0, int count = 25)
         {
             var ip = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             Logger.Information($"Game.GetAllGames by {ip}");
 
-            var games = await this._gameHandler.GetAllGamesAsync();
+            var games = await this._gameHandler.GetAllGamesAsync(offset, count);
             return Ok(games);
         }
 
@@ -40,13 +39,23 @@ namespace CartDB.API.Controllers
         }
 
         [HttpGet("name")]
-        public async Task<IActionResult> GetGameByName(string name)
+        public async Task<IActionResult> GetGamesByName(string name)
         {
             var ip = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-            Logger.Information($"Game.GetGameByName by {ip}");
+            Logger.Information($"Game.GetGamesByName by {ip}");
 
             var games = await this._gameHandler.GetGameByNameAsync(name);
             return Ok(games);
+        }
+
+        [HttpGet("catalogentry")]
+        public async Task<IActionResult> GetGameByCatalogEntry(string catalogentry)
+        {
+            var ip = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+            Logger.Information($"Game.GetGameByCatalogEntry by {ip}");
+
+            var game = await this._gameHandler.GetGameByCatalogEntryAsync(catalogentry);
+            return Ok(game);
         }
 
         [HttpGet("publisher/name")]

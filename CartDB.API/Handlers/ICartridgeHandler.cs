@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CartDB.API.Models;
-using CartDB.Database.Models;
 
 namespace CartDB.API.Handlers
 {
@@ -11,8 +10,10 @@ namespace CartDB.API.Handlers
         /// <summary>
         /// Gets a list of all cartridge
         /// </summary>
+        /// <param name="offset">the pagination offset</param>
+        /// <param name="count">the number of items to get back</param>
         /// <returns>list of cartridge</returns>
-        Task<List<CartridgeDto>> GetAllCartridgesAsync();
+        Task<List<CartridgeDto>> GetAllCartridgesAsync(int offset, int count);
 
         /// <summary>
         /// Gets a cartridge by its ID

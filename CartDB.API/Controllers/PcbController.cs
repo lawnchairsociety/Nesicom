@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using CartDB.API.Models;
-using Serilog;
-using System.Collections.Generic;
 using CartDB.API.Handlers;
+using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace CartDB.API.Controllers
 {
@@ -21,12 +19,12 @@ namespace CartDB.API.Controllers
         }
 
         [HttpGet("list")]
-        public async Task<IActionResult> GetAllPcbs()
+        public async Task<IActionResult> GetAllPcbs(int offset = 0, int count = 25)
         {
             var ip = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             Logger.Information($"Pcb.GetAllPcbs by {ip}");
 
-            var pcbs = await this._pcbHandler.GetAllPcbsAsync();
+            var pcbs = await this._pcbHandler.GetAllPcbsAsync(offset, count);
             return Ok(pcbs);
         }
 

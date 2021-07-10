@@ -10,8 +10,10 @@ namespace CartDB.API.Handlers
         /// <summary>
         /// Gets a list of all PCBs
         /// </summary>
+        /// <param name="offset">the pagination offset</param>
+        /// <param name="count">the number of items to get back</param>
         /// <returns>list of PCBs</returns>
-        Task<List<PcbDto>> GetAllPcbsAsync();
+        Task<List<PcbDto>> GetAllPcbsAsync(int offset, int count);
 
         /// <summary>
         /// Gets a PCB by its ID

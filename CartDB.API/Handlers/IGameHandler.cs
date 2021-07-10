@@ -10,8 +10,10 @@ namespace CartDB.API.Handlers
         /// <summary>
         /// Gets a list of all games
         /// </summary>
+        /// <param name="offset">the pagination offset</param>
+        /// <param name="count">the number of items to get back</param>
         /// <returns>list of games</returns>
-        Task<List<GameDto>> GetAllGamesAsync();
+        Task<List<GameDto>> GetAllGamesAsync(int offset, int count);
 
         /// <summary>
         /// Gets a game by its ID
@@ -26,6 +28,13 @@ namespace CartDB.API.Handlers
         /// <param name="name">the name of the game wanted</param>
         /// <returns>a list of games</returns>
         Task<List<GameDto>> GetGameByNameAsync(string name);
+
+        /// <summary>
+        /// Gets a game by its catalog entry
+        /// </summary>
+        /// <param name="catalogentry">the catalog entry of the game wanted</param>
+        /// <returns>a list of games</returns>
+        Task<GameDto> GetGameByCatalogEntryAsync(string catalogentry);
 
         /// <summary>
         /// Gets a list of games by their publisher's name

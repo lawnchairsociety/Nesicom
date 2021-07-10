@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using CartDB.API.Models;
 using CartDB.API.Mappers;
+using CartDB.API.Models;
 using CartDB.Database.Data;
 using Serilog;
 
@@ -22,9 +21,9 @@ namespace CartDB.API.Handlers
             this._pcbMapper = pcbMapper;
         }
 
-        public async Task<List<PcbDto>> GetAllPcbsAsync()
+        public async Task<List<PcbDto>> GetAllPcbsAsync(int offset, int count)
         {
-            var pcbs = this._context.Pcbs.ToList();
+            var pcbs = this._context.Pcbs.Skip(offset).Take(count).ToList();
 
             foreach(var pcb in pcbs)
             {

@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using Azure.Storage.Blobs;
 using CartDB.API.Handlers;
 using CartDB.API.Mappers;
 using CartDB.Database.Data;
