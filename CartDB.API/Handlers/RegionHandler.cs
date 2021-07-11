@@ -24,7 +24,7 @@ namespace CartDB.API.Handlers
         public async Task<List<RegionDto>> GetAllRegionsAsync()
         {
             var regions = this._context.Regions.ToList();
-
+            
             var result = this._regionMapper.MapDto(regions).ToList();
 
             return result;
@@ -35,7 +35,7 @@ namespace CartDB.API.Handlers
             var region = this._context.Regions
                             .Where(r => r.RegionId == id)
                             .FirstOrDefault();
-
+            
             var result = this._regionMapper.MapDto(region);
 
             return result;
@@ -46,7 +46,7 @@ namespace CartDB.API.Handlers
             var region = this._context.Regions
                             .Where(r => r.RegionName == name)
                             .FirstOrDefault();
-
+            
             var result = this._regionMapper.MapDto(region);
 
             return result;

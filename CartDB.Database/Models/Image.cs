@@ -11,5 +11,6 @@ namespace CartDB.Database.Models
         public string Filename { get; set; }
         public Guid? PcbId { get; set; }
         public Guid? CartridgeId { get; set; }
+        public bool Primary { get; set; }
     }
 }

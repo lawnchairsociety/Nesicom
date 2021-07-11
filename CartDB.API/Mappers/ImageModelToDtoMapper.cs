@@ -15,7 +15,8 @@ namespace CartDB.API.Mappers
             return new ImageDto
             {
                 Id = model.ImageId,
-                Filename = model.Filename
+                Filename = model.Filename,
+                IsPrimary = model.Primary
             };
         }
     }

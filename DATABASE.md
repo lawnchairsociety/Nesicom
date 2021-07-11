@@ -331,7 +331,8 @@
 
 | `Name`       | `Type`              | `Nullable` | `Default`            | `Comment` |
 |--------------|---------------------|------------|----------------------|-----------|
-| ImageId      | uniqueidentifier    | `false`    |  NEWSEQUENTIALID()   |           |
+| ImageId      | uniqueidentifier    | `false`    | NEWSEQUENTIALID()    |           |
 | Filename     | nvarchar(max)       | `false`    |                      |           |
 | PcbId        | uniqueidentifier    | `false`    |                      |           |
 | CartridgeId  | uniqueidentifier    | `false`    |                      |           |
+| Primary      | bit                 | `false`    | 0                    |           |
