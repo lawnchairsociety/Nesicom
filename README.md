@@ -21,12 +21,16 @@ The project is broken up into the following parts:
 - C# Library Project
 - .Net 5
 - EF Core Database library for the models created by the Parser and used by the API
-- Requires SQL Server or SQL Express to be installed locally
+- Requires SQL Server (or SQL Express) and PostgreSQL to be installed locally
+- This project was initially written for SQL Server but has since been modified to work with PostgreSQL as well
 - To initialize database:
   1. Select `CartDB.Database` in the `Solution Explorer`
   2. Open Package Manager Console and select `CartDB.Database` from the `Default Project` dropdown
-  3. Run `Add-Migration InitialCreate`
-  4. Run `Update-Database`
+  3. Run `Add-Migration InitialCreate -Context NesicomSqlServerContext -OutputDir Migrations\SqlServerMigrations`
+  4. Run `Add-Migration InitialCreate -Context NesicomPostgreContext -OutputDir Migrations\PostgreMigrations`
+  5. Run `Update-Database -Context NesicomSqlServerContext -Migration InitialCreate`
+  6. Run `Update-Database -Context NesicomPostgreContext -Migration InitialCreate`
+- If using PostgreSQL, see [this page](https://www.postgresqltutorial.com/postgresql-uuid/) on how to set up UUID generation
 
 ### CartDB.Downloader
 - C# Console Application Project
@@ -57,7 +61,8 @@ The project is broken up into the following parts:
 - Example: `python .\sitescraper.py all`
 
 ## Database Design
-See [DATABASE.md](DATABASE.md)
+See [SQL-DATABASE.md](SQL-DATABASE.md)
+See [PGS-DATABASE.md](PGS-DATABASE.md)
 
 ## Acknowledgements
 Thanks to [RustyCase](https://github.com/RustyCase) and [Davis Templeton](https://github.com/BashfulBandit) for the help with restructuring `CartDB.Parser`

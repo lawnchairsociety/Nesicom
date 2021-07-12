@@ -13,10 +13,10 @@ namespace CartDB.API.Handlers
     public class CartridgeHandler : ICartridgeHandler
     {
         private static readonly ILogger Logger = Log.ForContext<CartridgeHandler>();
-        private readonly NesicomContext _context;
+        private readonly NesicomPostgreContext _context;
         private readonly CartridgeModelToDtoMapper _cartridgeMapper;
 
-        public CartridgeHandler(NesicomContext context, CartridgeModelToDtoMapper cartridgeMapper)
+        public CartridgeHandler(NesicomPostgreContext context, CartridgeModelToDtoMapper cartridgeMapper)
         {
             this._context = context;
             this._cartridgeMapper = cartridgeMapper;

@@ -8,7 +8,7 @@ namespace CartDB.Parser.Mappers
 {
     public static class GameMapper
     {
-        public static Game Map(GameModel model, NesicomContext context)
+        public static Game Map(GameModel model, NesicomSqlServerContext context)
         {
             // region
             var regionModel = model.Region;

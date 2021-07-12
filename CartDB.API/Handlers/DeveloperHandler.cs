@@ -12,10 +12,10 @@ namespace CartDB.API.Handlers
     public class DeveloperHandler : IDeveloperHandler
     {
         private static readonly ILogger Logger = Log.ForContext<DeveloperHandler>();
-        private readonly NesicomContext _context;
+        private readonly NesicomPostgreContext _context;
         private readonly DeveloperModelToDtoMapper _developerMapper;
 
-        public DeveloperHandler(NesicomContext context, DeveloperModelToDtoMapper developerMapper)
+        public DeveloperHandler(NesicomPostgreContext context, DeveloperModelToDtoMapper developerMapper)
         {
             this._context = context;
             this._developerMapper = developerMapper;

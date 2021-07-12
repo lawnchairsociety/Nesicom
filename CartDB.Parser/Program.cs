@@ -14,7 +14,7 @@ namespace CartDB.Parser
         static void Main(string[] args)
         {
             // set up database context
-            using NesicomContext context = new NesicomContext();
+            using NesicomSqlServerContext context = new NesicomSqlServerContext();
 
             Stopwatch regionTimer = new Stopwatch();
             Stopwatch overallTimer = new Stopwatch();

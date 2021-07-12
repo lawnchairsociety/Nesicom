@@ -8,7 +8,7 @@ namespace CartDB.Parser.Mappers
 {
     public static class ManufacturerMapper
     {
-        public static Manufacturer Map(ProducerModel model, NesicomContext context)
+        public static Manufacturer Map(ProducerModel model, NesicomSqlServerContext context)
         {
             var manufacturer = context.Manufacturers.FirstOrDefault(o => o.ManufacturerName == model.Name);
             if (manufacturer == null)

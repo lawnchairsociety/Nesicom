@@ -8,7 +8,7 @@ namespace CartDB.Parser.Mappers
 {
     public static class CartridgeMapper
     {
-        public static Cartridge Map(CartridgeModel model, NesicomContext context)
+        public static Cartridge Map(CartridgeModel model, NesicomSqlServerContext context)
         {
             //mfgstringpresent
             bool? stringPresent = null;

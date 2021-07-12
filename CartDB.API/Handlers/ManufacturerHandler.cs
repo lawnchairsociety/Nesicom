@@ -12,10 +12,10 @@ namespace CartDB.API.Handlers
     public class ManufacturerHandler : IManufacturerHandler
     {
         private static readonly ILogger Logger = Log.ForContext<ManufacturerHandler>();
-        private readonly NesicomContext _context;
+        private readonly NesicomPostgreContext _context;
         private readonly ManufacturerModelToDtoMapper _manufacturerMapper;
 
-        public ManufacturerHandler(NesicomContext context, ManufacturerModelToDtoMapper manufacturerMapper)
+        public ManufacturerHandler(NesicomPostgreContext context, ManufacturerModelToDtoMapper manufacturerMapper)
         {
             this._context = context;
             this._manufacturerMapper = manufacturerMapper;

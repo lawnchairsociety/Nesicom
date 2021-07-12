@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Diagnostics;
-using CartDB.Database.Data;
 using System.Collections.Generic;
-using System.Linq;
-using System.IO;
-using System.Net;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
+using System.Linq;
+using System.Net;
+using CartDB.Database.Data;
 
 namespace CartDB.Downloader
 {
@@ -14,7 +14,7 @@ namespace CartDB.Downloader
     {
         static void Main(string[] args)
         {
-            using NesicomContext context = new NesicomContext();
+            using NesicomSqlServerContext context = new NesicomSqlServerContext();
 
             var manufacturerImagePath = Directory.GetCurrentDirectory() + @"\Resources\images\manufacturers\";
             var regionImagePath = Directory.GetCurrentDirectory() + @"\Resources\images\regions\";
@@ -218,7 +218,7 @@ namespace CartDB.Downloader
         /// <param name="oldFilename">the old filename we are replacing</param>
         /// <param name="newFilename">the new filename we have saved images to</param>
         /// <param name="context">the database context</param>
-        private static void UpdateManufacturerImage(string oldFilename, string newFilename, NesicomContext context)
+        private static void UpdateManufacturerImage(string oldFilename, string newFilename, NesicomSqlServerContext context)
         {
             var updateManufacturers = context.Manufacturers
                 .Where(o => o.Image == oldFilename).ToList();
@@ -237,7 +237,7 @@ namespace CartDB.Downloader
         /// <param name="oldFilename">the old filename we are replacing</param>
         /// <param name="newFilename">the new filename we have saved images to</param>
         /// <param name="context">the database context</param>
-        private static void UpdateRegionImage(string oldFilename, string newFilename, NesicomContext context)
+        private static void UpdateRegionImage(string oldFilename, string newFilename, NesicomSqlServerContext context)
         {
             var updateRegions = context.Regions
                 .Where(o => o.Image == oldFilename).ToList();
@@ -256,7 +256,7 @@ namespace CartDB.Downloader
         /// <param name="oldFilename">the old filename we are replacing</param>
         /// <param name="newFilename">the new filename we have saved images to</param>
         /// <param name="context">the database context</param>
-        private static void UpdatePeripheralsImage(string oldFilename, string newFilename, NesicomContext context)
+        private static void UpdatePeripheralsImage(string oldFilename, string newFilename, NesicomSqlServerContext context)
         {
             var updatePeripherals = context.Games
                 .Where(o => o.PeripheralsImage == oldFilename).ToList();
@@ -275,7 +275,7 @@ namespace CartDB.Downloader
         /// <param name="oldFilename">the old filename we are replacing</param>
         /// <param name="newFilename">the new filename we have saved images to</param>
         /// <param name="context">the database context</param>
-        private static void UpdateImage(string oldFilename, string newFilename, NesicomContext context)
+        private static void UpdateImage(string oldFilename, string newFilename, NesicomSqlServerContext context)
         {
             var updateImages = context.Images
                 .Where(o => o.Filename == oldFilename).ToList();

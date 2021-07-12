@@ -12,10 +12,10 @@ namespace CartDB.API.Handlers
     public class RegionHandler : IRegionHandler
     {
         private static readonly ILogger Logger = Log.ForContext<RegionHandler>();
-        private readonly NesicomContext _context;
+        private readonly NesicomPostgreContext _context;
         private readonly RegionModelToDtoMapper _regionMapper;
 
-        public RegionHandler(NesicomContext context, RegionModelToDtoMapper regionMapper)
+        public RegionHandler(NesicomPostgreContext context, RegionModelToDtoMapper regionMapper)
         {
             this._context = context;
             this._regionMapper = regionMapper;

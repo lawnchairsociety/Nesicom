@@ -12,7 +12,7 @@ namespace CartDB.API.IoC
             // Registrations
             builder.Register(context =>
             {
-                var nesContext = context.Resolve<NesicomContext>();
+                var nesContext = context.Resolve<NesicomPostgreContext>();
                 var cartridgeDtoMapper = new CartridgeModelToDtoMapper();
 
                 return new CartridgeHandler(nesContext, cartridgeDtoMapper);
@@ -22,7 +22,7 @@ namespace CartDB.API.IoC
 
             builder.Register(context =>
             {
-                var nesContext = context.Resolve<NesicomContext>();
+                var nesContext = context.Resolve<NesicomPostgreContext>();
                 var gameDtoMapper = new GameModelToDtoMapper();
 
                 return new GameHandler(nesContext, gameDtoMapper);
@@ -32,7 +32,7 @@ namespace CartDB.API.IoC
 
             builder.Register(context =>
             {
-                var nesContext = context.Resolve<NesicomContext>();
+                var nesContext = context.Resolve<NesicomPostgreContext>();
                 var manufacturerDtoMapper = new ManufacturerModelToDtoMapper();
 
                 return new ManufacturerHandler(nesContext, manufacturerDtoMapper);
@@ -42,7 +42,7 @@ namespace CartDB.API.IoC
 
             builder.Register(context =>
             {
-                var nesContext = context.Resolve<NesicomContext>();
+                var nesContext = context.Resolve<NesicomPostgreContext>();
                 var pcbDtoMapper = new PcbModelToDtoMapper();
 
                 return new PcbHandler(nesContext, pcbDtoMapper);
@@ -52,7 +52,7 @@ namespace CartDB.API.IoC
 
             builder.Register(context =>
             {
-                var nesContext = context.Resolve<NesicomContext>();
+                var nesContext = context.Resolve<NesicomPostgreContext>();
                 var regionDtoMapper = new RegionModelToDtoMapper();
 
                 return new RegionHandler(nesContext, regionDtoMapper);
@@ -62,7 +62,7 @@ namespace CartDB.API.IoC
 
             builder.Register(context =>
             {
-                var nesContext = context.Resolve<NesicomContext>();
+                var nesContext = context.Resolve<NesicomPostgreContext>();
                 var developerDtoMapper = new DeveloperModelToDtoMapper();
 
                 return new DeveloperHandler(nesContext, developerDtoMapper);
@@ -72,7 +72,7 @@ namespace CartDB.API.IoC
 
             builder.Register(context =>
             {
-                var nesContext = context.Resolve<NesicomContext>();
+                var nesContext = context.Resolve<NesicomPostgreContext>();
                 var publisherDtoMapper = new PublisherModelToDtoMapper();
 
                 return new PublisherHandler(nesContext, publisherDtoMapper);
@@ -82,7 +82,7 @@ namespace CartDB.API.IoC
 
             builder.Register(context =>
             {
-                var nesContext = context.Resolve<NesicomContext>();
+                var nesContext = context.Resolve<NesicomPostgreContext>();
                 
                 return new StatsHandler(nesContext);
             })
@@ -91,7 +91,7 @@ namespace CartDB.API.IoC
 
             builder.Register(context =>
             {
-                var nesContext = context.Resolve<NesicomContext>();
+                var nesContext = context.Resolve<NesicomPostgreContext>();
                 var cartridgeChipDtoMapper = new CartridgeChipModelToDtoMapper();
                 var cartridgeDtoMapper = new CartridgeModelToDtoMapper();
                 var developerDtoMapper = new DeveloperModelToDtoMapper();

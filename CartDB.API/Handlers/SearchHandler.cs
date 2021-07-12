@@ -10,7 +10,7 @@ namespace CartDB.API.Handlers
     public class SearchHandler : ISearchHandler
     {
         private static readonly ILogger Logger = Log.ForContext<RegionHandler>();
-        private readonly NesicomContext _context;
+        private readonly NesicomPostgreContext _context;
         private readonly CartridgeChipModelToDtoMapper _cartridgeChipMapper;
         private readonly CartridgeModelToDtoMapper _cartridgeMapper;
         private readonly DeveloperModelToDtoMapper _developerMapper;
@@ -20,7 +20,7 @@ namespace CartDB.API.Handlers
         private readonly PublisherModelToDtoMapper _publisherMapper;
         private readonly RegionModelToDtoMapper _regionMapper;
 
-        public SearchHandler(NesicomContext context, CartridgeChipModelToDtoMapper cartridgeChipMapper, CartridgeModelToDtoMapper cartridgeMapper,
+        public SearchHandler(NesicomPostgreContext context, CartridgeChipModelToDtoMapper cartridgeChipMapper, CartridgeModelToDtoMapper cartridgeMapper,
             DeveloperModelToDtoMapper developerMapper, GameModelToDtoMapper gameMapper, ManufacturerModelToDtoMapper manufacturerMapper,
             PcbModelToDtoMapper pcbMapper, PublisherModelToDtoMapper publisherMapper, RegionModelToDtoMapper regionMapper)
         {

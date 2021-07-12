@@ -12,10 +12,10 @@ namespace CartDB.API.Handlers
     public class GameHandler : IGameHandler
     {
         private static readonly ILogger Logger = Log.ForContext<GameHandler>();
-        private readonly NesicomContext _context;
+        private readonly NesicomPostgreContext _context;
         private readonly GameModelToDtoMapper _gameMapper;
 
-        public GameHandler(NesicomContext context, GameModelToDtoMapper gameMapper)
+        public GameHandler(NesicomPostgreContext context, GameModelToDtoMapper gameMapper)
         {
             this._context = context;
             this._gameMapper = gameMapper;

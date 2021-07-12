@@ -8,7 +8,7 @@ namespace CartDB.Parser.Mappers
 {
     public static class PcbMapper
     {
-        public static Pcb Map(PcbModel model, NesicomContext context)
+        public static Pcb Map(PcbModel model, NesicomSqlServerContext context)
         {
             // manufacturer
             var manufacturer = context.Manufacturers.FirstOrDefault(o => o.ManufacturerName == model.Manufacturer);

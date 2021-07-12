@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CartDB.Database.Data
 {
-    public partial class NesicomContext : DbContext
+    public partial class NesicomSqlServerContext : DbContext
     {
-        public NesicomContext()
+        public NesicomSqlServerContext()
         {
         }
 
-        public NesicomContext(DbContextOptions<NesicomContext> options)
+        public NesicomSqlServerContext(DbContextOptions<NesicomSqlServerContext> options)
             : base(options)
         {
         }

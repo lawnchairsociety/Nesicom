@@ -12,9 +12,9 @@ namespace CartDB.API.Handlers
     public class StatsHandler : IStatsHandler
     {
         public static readonly ILogger Logger = Log.ForContext<StatsHandler>();
-        private readonly NesicomContext _context;
+        private readonly NesicomPostgreContext _context;
 
-        public StatsHandler(NesicomContext context)
+        public StatsHandler(NesicomPostgreContext context)
         {
             this._context = context;
         }

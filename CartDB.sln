@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartDB.API", "CartDB.API\Ca
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartDB.Database", "CartDB.Database\CartDB.Database.csproj", "{5D5E8748-EC4D-4B67-8DD3-A3FD630BC71E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartDB.Downloader", "CardDB.Downloader\CartDB.Downloader.csproj", "{18FB9D83-A013-4185-9B7C-B9DB22FF8270}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartDB.Downloader", "CardDB.Downloader\CartDB.Downloader.csproj", "{18FB9D83-A013-4185-9B7C-B9DB22FF8270}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

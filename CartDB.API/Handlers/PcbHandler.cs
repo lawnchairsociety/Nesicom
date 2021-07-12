@@ -12,10 +12,10 @@ namespace CartDB.API.Handlers
     public class PcbHandler : IPcbHandler
     {
         private static readonly ILogger Logger = Log.ForContext<PcbHandler>();
-        private readonly NesicomContext _context;
+        private readonly NesicomPostgreContext _context;
         private readonly PcbModelToDtoMapper _pcbMapper;
 
-        public PcbHandler(NesicomContext context, PcbModelToDtoMapper pcbMapper)
+        public PcbHandler(NesicomPostgreContext context, PcbModelToDtoMapper pcbMapper)
         {
             this._context = context;
             this._pcbMapper = pcbMapper;

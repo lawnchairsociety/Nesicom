@@ -7,7 +7,7 @@ namespace CartDB.Parser.Mappers
 {
     public static class RegionMapper
     {
-        public static Region Map(RegionModel model, NesicomContext context)
+        public static Region Map(RegionModel model, NesicomSqlServerContext context)
         {
             var region = context.Regions.FirstOrDefault(o => o.RegionName == model.Name);
             if (region == null)

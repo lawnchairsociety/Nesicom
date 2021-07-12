@@ -8,7 +8,7 @@ namespace CartDB.Parser.Mappers
 {
     public static class CartridgeChipMapper
     {
-        public static List<CartridgeChip> Map(List<CartridgeChipModel> model, NesicomContext context)
+        public static List<CartridgeChip> Map(List<CartridgeChipModel> model, NesicomSqlServerContext context)
         {
             List<CartridgeChip> cartridgeChips = new List<CartridgeChip>();
 

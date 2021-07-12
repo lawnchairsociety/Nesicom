@@ -12,10 +12,10 @@ namespace CartDB.API.Handlers
     public class PublisherHandler : IPublisherHandler
     {
         private static readonly ILogger Logger = Log.ForContext<PublisherHandler>();
-        private readonly NesicomContext _context;
+        private readonly NesicomPostgreContext _context;
         private readonly PublisherModelToDtoMapper _publisherMapper;
 
-        public PublisherHandler(NesicomContext context, PublisherModelToDtoMapper publisherMapper)
+        public PublisherHandler(NesicomPostgreContext context, PublisherModelToDtoMapper publisherMapper)
         {
             this._context = context;
             this._publisherMapper = publisherMapper;

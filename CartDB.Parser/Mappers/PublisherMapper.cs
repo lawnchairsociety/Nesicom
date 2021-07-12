@@ -7,7 +7,7 @@ namespace CartDB.Parser.Mappers
 {
     public static class PublisherMapper
     {
-        public static Publisher Map(PublisherModel model, NesicomContext context)
+        public static Publisher Map(PublisherModel model, NesicomSqlServerContext context)
         {
             var publisher = context.Publishers.FirstOrDefault(o => o.PublisherName == model.Name);
             if (publisher == null)

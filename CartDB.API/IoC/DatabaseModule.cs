@@ -22,12 +22,19 @@ namespace CartDB.API.IoC
             // Registrations
             builder.Register(context =>
             {
-                var options = new DbContextOptionsBuilder<NesicomContext>();
-                options.UseSqlServer(connString);
+                var options = new DbContextOptionsBuilder<NesicomPostgreContext>();
+                if (dbConfig.DatabaseType == "SqlServer")
+                {
+                    options.UseSqlServer(connString);
+                }
+                else
+                {
+                    options.UseNpgsql(connString);
+                }
 
-                return new NesicomContext(options.Options);
+                return new NesicomPostgreContext(options.Options);
             })
-                .As<NesicomContext>()
+                .As<NesicomPostgreContext>()
                 .InstancePerLifetimeScope();
         }
     }

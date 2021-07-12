@@ -7,7 +7,7 @@ namespace CartDB.Parser.Mappers
 {
     public static class DeveloperMapper
     {
-        public static Developer Map(DeveloperModel model, NesicomContext context)
+        public static Developer Map(DeveloperModel model, NesicomSqlServerContext context)
         {
             var developer = context.Developers.FirstOrDefault(o => o.DeveloperName == model.Name);
             if (developer == null)
