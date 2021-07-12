@@ -6,8 +6,9 @@ This is a scrape of the data on http://bootgod.dyndns.org:7777. I am reorganizin
 The project is broken up into the following parts:
 - CartDB.API
 - CartDB.Database
-- CartDB.Parser
 - CartDB.Downloader
+- CartDB.Frontend
+- CartDB.Parser
 - SiteScraper
 
 ## Projects
@@ -27,15 +28,23 @@ The project is broken up into the following parts:
   3. Run `Add-Migration InitialCreate`
   4. Run `Update-Database`
 
-### CartDB.Parser
-- C# Console Application Project
-- .Net 5
-- Parses the CartScraper and PCBScraper JSON data into C# models, makes some adjustments, downloads any images, and outputs SQL insertion files.
-
 ### CartDB.Downloader
 - C# Console Application Project
 - .Net 5
 - Scans the database for any image URLs, downloads them, then updates the URL with the new filename.
+
+### CartDB.Frontend
+- Web Application Project
+- React JS
+- Frontend website for the CartDB.API
+- To start:
+  1. Run `npm install`
+  2. Run `npm start`
+
+### CartDB.Parser
+- C# Console Application Project
+- .Net 5
+- Parses the CartScraper and PCBScraper JSON data into C# models, makes some adjustments, downloads any images, and outputs SQL insertion files.
 
 ### SiteScraper
 - Python Project
