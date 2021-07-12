@@ -388,15 +388,15 @@ FodyWeavers.xsd
 *.sln.iml
 
 # dependencies
-/node_modules
+CartDB.Frontend/node_modules
 /.pnp
 .pnp.js
 
 # testing
-/coverage
+CartDB.Frontend/coverage
 
 # production
-/build
+CartDB.Frontend/build
 
 # misc
 .DS_Store
