@@ -4,7 +4,7 @@ const RegionsBox = ({ regions }) => {
     return (
         <div className="regionsBox">
             <h1>Regions</h1>
-            {regions.map((region, index) => (
+            {regions.map((region) => (
                 <a href="#">
                     <img
                         key={region.id}
@@ -12,7 +12,6 @@ const RegionsBox = ({ regions }) => {
                         alt={region.name}
                         title={region.name}
                     />
-                    {index === regions.length / 2 - 1 ? <br /> : ''}
                 </a>
             ))}
         </div>

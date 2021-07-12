@@ -412,6 +412,9 @@ yarn-error.log*
 # personal notes Folder
 notes/
 
+# Prettier RC File
+.prettierrc
+
 # scraper output Folder
 output/
 
