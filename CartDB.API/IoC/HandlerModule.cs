@@ -88,6 +88,24 @@ namespace CartDB.API.IoC
             })
                 .As<IStatsHandler>()
                 .InstancePerLifetimeScope();
+
+            builder.Register(context =>
+            {
+                var nesContext = context.Resolve<NesicomContext>();
+                var cartridgeChipDtoMapper = new CartridgeChipModelToDtoMapper();
+                var cartridgeDtoMapper = new CartridgeModelToDtoMapper();
+                var developerDtoMapper = new DeveloperModelToDtoMapper();
+                var gameDtoMapper = new GameModelToDtoMapper();
+                var manufacturerDtoMapper = new ManufacturerModelToDtoMapper();
+                var pcbDtoMapper = new PcbModelToDtoMapper();
+                var publisherDtoMapper = new PublisherModelToDtoMapper();
+                var regionDtoMapper = new RegionModelToDtoMapper();
+
+                return new SearchHandler(nesContext, cartridgeChipDtoMapper, cartridgeDtoMapper, developerDtoMapper, gameDtoMapper,
+                            manufacturerDtoMapper, pcbDtoMapper, publisherDtoMapper, regionDtoMapper);
+            })
+                .As<ISearchHandler>()
+                .InstancePerLifetimeScope();
         }
     }
 }
